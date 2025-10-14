@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 interface MarketDataItem {
   symbol: string;
@@ -26,14 +26,14 @@ export const useMarketData = (symbols: string[] = []): UseMarketDataReturn => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const colors = [
+  const colors = useMemo(() => [
     'fluorescent-pink',
     'fluorescent-blue', 
     'electric-orange',
     'pulsing-cyan',
     'neon-green',
     'electric-purple'
-  ];
+  ], []);
 
   const generateMockData = useCallback((symbol: string, index: number): MarketDataItem => {
     const mockPrices = {
@@ -67,7 +67,7 @@ export const useMarketData = (symbols: string[] = []): UseMarketDataReturn => {
       volume: `${(Math.random() * 100).toFixed(1)}M`,
       color: colors[index % colors.length]
     };
-  }, []);
+  }, [colors]);
 
   const fetchMarketData = useCallback(async () => {
     if (symbols.length === 0) return;

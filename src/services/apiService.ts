@@ -1,8 +1,33 @@
 // Mock API Service - No external API calls
+
+interface MarketData {
+  symbol: string;
+  price: number;
+  change: number;
+  changePercent: number;
+  volume: number;
+  high: number;
+  low: number;
+  timestamp: number;
+}
+
+interface NewsItem {
+  title: string;
+  content: string;
+  source: string;
+  timestamp: number;
+  category?: string;
+}
+
+interface CachedData {
+  data: unknown;
+  timestamp: number;
+}
+
 export class APIService {
   private static instance: APIService;
-  private dataCache: Map<string, any> = new Map();
-  private updateCallbacks: Map<string, Function[]> = new Map();
+  private dataCache: Map<string, CachedData> = new Map();
+  private updateCallbacks: Map<string, (() => void)[]> = new Map();
 
   private constructor() {}
 
@@ -14,38 +39,38 @@ export class APIService {
   }
 
   // Mock Market Data
-  async getTwelveDataQuote(symbol: string): Promise<any> {
+  async getTwelveDataQuote(symbol: string): Promise<MarketData> {
     return this.getMockMarketData(symbol);
   }
 
-  async getFinnhubQuote(symbol: string): Promise<any> {
+  async getFinnhubQuote(symbol: string): Promise<MarketData> {
     return this.getMockMarketData(symbol);
   }
 
-  async getAlphaVantageQuote(symbol: string): Promise<any> {
+  async getAlphaVantageQuote(symbol: string): Promise<MarketData> {
     return this.getMockMarketData(symbol);
   }
 
-  async getPolygonQuote(symbol: string): Promise<any> {
+  async getPolygonQuote(symbol: string): Promise<MarketData> {
     return this.getMockMarketData(symbol);
   }
 
-  async getCoinGeckoData(coinId: string): Promise<any> {
+  async getCoinGeckoData(coinId: string): Promise<MarketData> {
     return this.getMockCryptoData(coinId);
   }
 
   // Mock News Data
-  async getPersonalityNews(personality: 'republican' | 'democrat' | 'liberal' | 'independent'): Promise<any> {
+  async getPersonalityNews(personality: 'republican' | 'democrat' | 'liberal' | 'independent'): Promise<NewsItem[]> {
     return this.getMockNews(personality);
   }
 
   // Mock Sports Data
-  async getNFLData(): Promise<any> {
+  async getNFLData(): Promise<NewsItem[]> {
     return this.getMockSportsData();
   }
 
   // Mock WebSocket (no real connection)
-  connectWebSocket(endpoint: string, symbol: string, callback: Function): void {
+  connectWebSocket(_endpoint: string, symbol: string, callback: (data: MarketData) => void): void {
     console.log(`Mock WebSocket connection for ${symbol}`);
     // Simulate periodic updates
     setInterval(() => {
@@ -54,14 +79,14 @@ export class APIService {
   }
 
   // Subscription Management (mock)
-  subscribe(key: string, callback: Function): void {
+  subscribe(key: string, callback: () => void): void {
     if (!this.updateCallbacks.has(key)) {
       this.updateCallbacks.set(key, []);
     }
     this.updateCallbacks.get(key)?.push(callback);
   }
 
-  unsubscribe(key: string, callback: Function): void {
+  unsubscribe(key: string, callback: () => void): void {
     const callbacks = this.updateCallbacks.get(key);
     if (callbacks) {
       const index = callbacks.indexOf(callback);
@@ -72,7 +97,7 @@ export class APIService {
   }
 
   // Cache Management
-  getCachedData(key: string, maxAge: number = 60000): any {
+  getCachedData(key: string, maxAge: number = 60000): unknown {
     const cached = this.dataCache.get(key);
     if (cached && (Date.now() - cached.timestamp) < maxAge) {
       return cached.data;
@@ -81,7 +106,7 @@ export class APIService {
   }
 
   // Mock Data Generators
-  private getMockMarketData(symbol: string): any {
+  private getMockMarketData(symbol: string): MarketData {
     const mockPrices = {
       'AAPL': { price: 182.31, change: 1.24, changePercent: 0.68 },
       'GOOGL': { price: 2847.42, change: -20.85, changePercent: -0.72 },
@@ -101,27 +126,46 @@ export class APIService {
     };
 
     // Add small random variations
+    const finalPrice = baseData.price + (Math.random() - 0.5) * 2;
+    const finalChange = baseData.change + (Math.random() - 0.5) * 0.5;
+    
     return {
-      ...baseData,
-      price: baseData.price + (Math.random() - 0.5) * 2,
-      change: baseData.change + (Math.random() - 0.5) * 0.5
+      symbol,
+      price: finalPrice,
+      change: finalChange,
+      changePercent: (finalChange / finalPrice) * 100,
+      volume: Math.floor(Math.random() * 1000000) + 100000,
+      high: finalPrice + Math.random() * 10,
+      low: finalPrice - Math.random() * 10,
+      timestamp: Date.now()
     };
   }
 
-  private getMockCryptoData(coinId: string): any {
+  private getMockCryptoData(coinId: string): MarketData {
     const mockCrypto = {
       'bitcoin': { price: 43250, change: 2.45 },
       'ethereum': { price: 2485, change: 1.85 },
       'binancecoin': { price: 315, change: -0.75 }
     };
 
-    return mockCrypto[coinId as keyof typeof mockCrypto] || {
+    const baseData = mockCrypto[coinId as keyof typeof mockCrypto] || {
       price: Math.random() * 50000,
       change: (Math.random() - 0.5) * 10
     };
+    
+    return {
+      symbol: coinId,
+      price: baseData.price,
+      change: baseData.change,
+      changePercent: (baseData.change / baseData.price) * 100,
+      volume: Math.floor(Math.random() * 1000000) + 100000,
+      high: baseData.price + Math.random() * 1000,
+      low: baseData.price - Math.random() * 1000,
+      timestamp: Date.now()
+    };
   }
 
-  private getMockNews(personality: string): any[] {
+  private getMockNews(personality: string): NewsItem[] {
     const mockNews = {
       republican: [
         { title: 'Market Rally Continues Amid Economic Growth', category: 'Business', time: '2 min ago' },
@@ -149,16 +193,33 @@ export class APIService {
       ]
     };
 
-    return mockNews[personality as keyof typeof mockNews] || mockNews.independent;
+    const mockNewsData = mockNews[personality as keyof typeof mockNews] || mockNews.independent;
+    
+    // Transform to NewsItem format
+    return mockNewsData.map((item, index) => ({
+      title: item.title,
+      content: `${item.title} - Full article content would be here...`,
+      source: 'News Source',
+      timestamp: Date.now() - (index + 1) * 300000,
+      category: item.category
+    }));
   }
 
-  private getMockSportsData(): any[] {
-    return [
+  private getMockSportsData(): NewsItem[] {
+    const sportsData = [
       { homeTeam: 'Chiefs', awayTeam: 'Bills', homeScore: 24, awayScore: 21, status: 'Final' },
       { homeTeam: 'Cowboys', awayTeam: 'Giants', homeScore: 17, awayScore: 14, status: 'Q4' },
       { homeTeam: 'Patriots', awayTeam: 'Jets', homeScore: 20, awayScore: 17, status: 'Final' },
       { homeTeam: '49ers', awayTeam: 'Rams', homeScore: 28, awayScore: 21, status: 'Final' }
     ];
+    
+    return sportsData.map((game, index) => ({
+      title: `${game.homeTeam} vs ${game.awayTeam}`,
+      content: `${game.homeTeam} ${game.homeScore} - ${game.awayScore} ${game.awayTeam} (${game.status})`,
+      source: 'Sports Network',
+      timestamp: Date.now() - (index + 1) * 600000,
+      category: 'Sports'
+    }));
   }
 
   // Cleanup (mock)

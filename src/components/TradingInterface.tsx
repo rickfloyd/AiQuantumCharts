@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Play, Settings, Maximize2, BarChart3, LineChart, CandlestickChart, Pause, Square, Zap, Activity, TrendingUp } from 'lucide-react';
+import { Settings, Maximize2, BarChart3, LineChart, CandlestickChart, Square, Zap, Activity, TrendingUp } from 'lucide-react';
 
 interface TradingInterfaceProps {
   onTimeframeChange?: (timeframe: string) => void;

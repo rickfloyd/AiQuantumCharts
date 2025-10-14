@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 interface NewsItem {
   title: string;
@@ -24,14 +24,14 @@ export const useNewsData = (): UseNewsDataReturn => {
   const [error, setError] = useState<string | null>(null);
   const [currentPersonality, setCurrentPersonality] = useState<'republican' | 'democrat' | 'liberal' | 'independent'>('independent');
 
-  const colors = [
+  const colors = useMemo(() => [
     'fluorescent-pink',
     'fluorescent-blue',
     'electric-orange',
     'pulsing-cyan',
     'neon-green',
     'electric-purple'
-  ];
+  ], []);
 
   const generateMockNews = useCallback((personality: string): NewsItem[] => {
     const mockNews = {
@@ -77,7 +77,7 @@ export const useNewsData = (): UseNewsDataReturn => {
       source: 'Market News',
       url: '#'
     }));
-  }, []);
+  }, [colors]);
 
   const fetchNews = useCallback(async (personality: 'republican' | 'democrat' | 'liberal' | 'independent') => {
     setLoading(true);

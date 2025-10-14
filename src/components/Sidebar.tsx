@@ -62,6 +62,17 @@ const groups: { label: string; items: { to: string; label: string }[] }[] = [
     ],
   },
   {
+    label: "Investor Portal",
+    items: [
+      { to: "/investor/portfolio", label: "Portfolio" },
+      { to: "/investor/research", label: "Research Hub" },
+      { to: "/investor/reports", label: "Reports" },
+      { to: "/investor/risk", label: "Risk Management" },
+      { to: "/investor/insights", label: "AI Insights" },
+      { to: "/investor/global", label: "Global Markets" },
+    ],
+  },
+  {
     label: "System",
     items: [
       { to: "/system/dashboard", label: "System Dashboard" },

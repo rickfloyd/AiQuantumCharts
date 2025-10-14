@@ -1,22 +1,34 @@
 import React, { useState } from 'react';
 import { TrendingUp, TrendingDown, RefreshCw, Eye, EyeOff, Zap, Activity } from 'lucide-react';
-import { useMarketData } from '../hooks/useMarketData';
+import { useRealTimeData } from '../hooks/useRealTimeData';
 
 const MarketSummary = () => {
   const [hiddenIndices, setHiddenIndices] = useState<number[]>([]);
   
-  // Use real market data
-  const { data: marketData, loading, refreshData } = useMarketData([
-    'SPY', 'QQQ', 'DIA', 'IWM'  // ETFs representing major indices
-  ]);
+  // Use real market data with specific stock symbols
+  const { stockData, loading, refreshData } = useRealTimeData({
+    symbols: ['SPY', 'QQQ', 'DIA', 'IWM'],  // ETFs representing major indices
+    updateInterval: 60000, // Update every minute
+  });
 
   // Map ETF symbols to index names
-  const indexNames = {
+  const indexNames: { [key: string]: string } = {
     'SPY': 'S&P 500',
     'QQQ': 'Nasdaq 100', 
     'DIA': 'Dow Jones',
     'IWM': 'Russell 2000'
   };
+
+  // Convert stock data to array format for rendering
+  const marketDataArray = Object.entries(stockData).map(([symbol, data]) => ({
+    symbol,
+    name: indexNames[symbol] || symbol,
+    price: `$${data.price.toFixed(2)}`,
+    change: data.change > 0 ? `+${data.change.toFixed(2)}` : data.change.toFixed(2),
+    changePercent: data.changePercent > 0 ? `+${data.changePercent.toFixed(2)}%` : `${data.changePercent.toFixed(2)}%`,
+    positive: data.change > 0,
+    volume: data.volume || 'N/A'
+  }));
 
   const handleRefresh = () => {
     refreshData();
@@ -72,43 +84,50 @@ const MarketSummary = () => {
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {marketData.map((item, index) => (
-          <div key={index} className={`flex items-center space-x-4 p-4 rounded-xl bg-deep-black/50 border-2 border-${item.color} shadow-neon-blue hover:shadow-neon-pink hover:animate-pulse-glow transition-all duration-300 ${hiddenIndices.includes(index) ? 'opacity-30' : ''}`}>
-            <div className={`w-16 h-16 bg-${item.color} rounded-full flex items-center justify-center text-white font-bold text-sm cursor-pointer hover:scale-110 transition-all duration-300 animate-cyber-pulse`}>
-              {item.symbol === 'SPY' ? (
-                <Zap className="w-8 h-8" />
-              ) : item.symbol === 'QQQ' ? (
-                <Activity className="w-8 h-8" />
-              ) : item.symbol === 'DIA' ? (
-                <TrendingUp className="w-8 h-8" />
-              ) : (
-                <TrendingDown className="w-8 h-8" />
-              )}
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center justify-between mb-2">
-                <button 
-                  onClick={() => handleMarketClick(item.symbol)}
-                  className={`text-${item.color} font-bold text-sm hover:text-white transition-all duration-300 drop-shadow-lg`}
-                >
-                  {indexNames[item.symbol as keyof typeof indexNames] || item.symbol}
-                </button>
-                <button
-                  onClick={() => toggleVisibility(index)}
-                  className="text-gray-400 hover:text-fluorescent-pink transition-all duration-300 hover:scale-110"
-                  title={hiddenIndices.includes(index) ? 'Show' : 'Hide'}
-                >
-                  {hiddenIndices.includes(index) ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
-              </div>
-              <div className={`text-${item.color} text-xl font-bold drop-shadow-lg mb-1`}>{item.price}</div>
-              <div className={`text-sm flex items-center font-bold ${item.positive ? 'text-neon-green' : 'text-fluorescent-pink'}`}>
-                {item.positive ? <TrendingUp className="w-4 h-4 mr-1 animate-bounce" /> : <TrendingDown className="w-4 h-4 mr-1 animate-bounce" />}
-                {item.change}
-              </div>
-            </div>
+        {loading ? (
+          <div className="col-span-full text-center text-fluorescent-pink">
+            <RefreshCw className="w-8 h-8 animate-spin mx-auto mb-2" />
+            Loading market data...
           </div>
-        ))}
+        ) : (
+          marketDataArray.map((item, index) => (
+            <div key={index} className={`flex items-center space-x-4 p-4 rounded-xl bg-deep-black/50 border-2 border-fluorescent-pink shadow-neon-blue hover:shadow-neon-pink hover:animate-pulse-glow transition-all duration-300 ${hiddenIndices.includes(index) ? 'opacity-30' : ''}`}>
+              <div className={`w-16 h-16 bg-fluorescent-pink rounded-full flex items-center justify-center text-white font-bold text-sm cursor-pointer hover:scale-110 transition-all duration-300 animate-cyber-pulse`}>
+                {item.symbol === 'SPY' ? (
+                  <Zap className="w-8 h-8" />
+                ) : item.symbol === 'QQQ' ? (
+                  <Activity className="w-8 h-8" />
+                ) : item.symbol === 'DIA' ? (
+                  <TrendingUp className="w-8 h-8" />
+                ) : (
+                  <TrendingDown className="w-8 h-8" />
+                )}
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center justify-between mb-2">
+                  <button 
+                    onClick={() => handleMarketClick(item.symbol)}
+                    className="text-fluorescent-pink font-bold text-sm hover:text-white transition-all duration-300 drop-shadow-lg"
+                  >
+                    {item.name}
+                  </button>
+                  <button
+                    onClick={() => toggleVisibility(index)}
+                    className="text-gray-400 hover:text-fluorescent-pink transition-all duration-300 hover:scale-110"
+                    title={hiddenIndices.includes(index) ? 'Show' : 'Hide'}
+                  >
+                    {hiddenIndices.includes(index) ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+                <div className="text-fluorescent-pink text-xl font-bold drop-shadow-lg mb-1">{item.price}</div>
+                <div className={`text-sm flex items-center font-bold ${item.positive ? 'text-neon-green' : 'text-hot-pink'}`}>
+                  {item.positive ? <TrendingUp className="w-4 h-4 mr-1 animate-bounce" /> : <TrendingDown className="w-4 h-4 mr-1 animate-bounce" />}
+                  {item.changePercent}
+                </div>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

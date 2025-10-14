@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, BarChart3, TrendingUp, Globe, Package, Users, MoreHorizontal, Menu, X, Zap } from 'lucide-react';
+import { Search, Menu, X } from 'lucide-react';
 import { useNewsData } from '../hooks/useNewsData';
 
 const Header = () => {
@@ -9,7 +9,7 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   // Use news data hook for personality switching
-  const { switchPersonality, currentPersonality } = useNewsData();
+  const { switchPersonality } = useNewsData();
 
   const personalities = [
     { name: 'Republican', description: 'Conservative market analysis', color: 'text-electric-orange' },
@@ -87,6 +87,20 @@ const Header = () => {
               </div>
             )}
           </div>
+
+          <button 
+            onClick={() => {
+              // Scroll to educational impact section
+              const element = document.querySelector('.educational-impact-section');
+              if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+            className="text-green-400 hover:text-green-300 transition-all duration-300 hover:shadow-neon-green px-3 py-2 rounded-lg hover:bg-charcoal/50 font-semibold flex items-center space-x-1"
+          >
+            <span>💚</span>
+            <span>Impact</span>
+          </button>
           
           {['Sports Betting', 'Sports', 'World Sports', 'Products', 'Markets'].map((item, index) => (
             <button 
@@ -102,6 +116,7 @@ const Header = () => {
             </button>
           ))}
           
+          {/* Platform Selector with 18+ Warnings */}
           <div className="relative">
             <button 
               onClick={() => setShowMore(!showMore)}
@@ -110,7 +125,45 @@ const Header = () => {
               More
             </button>
             {showMore && (
-              <div className="absolute top-full left-0 mt-2 py-2 bg-deep-black border-2 border-electric-purple rounded-lg shadow-neon-blue z-50 min-w-[200px] animate-slide-in">
+              <div className="absolute top-full left-0 mt-2 py-2 bg-deep-black border-2 border-electric-purple rounded-lg shadow-neon-blue z-50 min-w-[280px] animate-slide-in">
+                <div className="px-4 py-2 border-b border-hot-pink/50">
+                  <div className="text-hot-pink font-bold text-sm animate-pulse">🔞 ADULT PLATFORMS (18+)</div>
+                  <div className="text-xs text-gray-400">Age verification required</div>
+                </div>
+                
+                <a
+                  href="http://localhost:5173"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full text-left px-4 py-3 text-fluorescent-pink hover:bg-charcoal transition-all duration-200 hover:shadow-neon-pink"
+                >
+                  <div className="font-bold flex items-center">
+                    <span className="mr-2">🎮</span>
+                    Gaming Portal
+                    <span className="ml-auto text-xs bg-hot-pink text-white px-2 py-1 rounded animate-pulse font-bold">18+</span>
+                  </div>
+                  <div className="text-xs text-gray-300">Secure chat, vault system, adult gaming</div>
+                </a>
+                
+                <a
+                  href="http://localhost:5174"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full text-left px-4 py-3 text-fluorescent-blue hover:bg-charcoal transition-all duration-200 hover:shadow-neon-blue"
+                >
+                  <div className="font-bold flex items-center">
+                    <span className="mr-2">⛏️</span>
+                    Crypto Mining Hub
+                    <span className="ml-auto text-xs bg-hot-pink text-white px-2 py-1 rounded animate-pulse font-bold">18+</span>
+                  </div>
+                  <div className="text-xs text-gray-300">Mining calculations, financial risks, adult content</div>
+                </a>
+                
+                <div className="px-4 py-2 border-t border-electric-purple/30 mt-2">
+                  <div className="text-pulsing-cyan font-bold text-sm">📊 TRADING PLATFORM</div>
+                  <div className="text-xs text-gray-400">Current platform - professional trading</div>
+                </div>
+                
                 {moreItems.map((item) => (
                   <button
                     key={item}
