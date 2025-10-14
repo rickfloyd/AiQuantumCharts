@@ -6,7 +6,7 @@ interface Personality {
   name: string;
   category: string;
   rssFeedUrl: string;
-  leaning: 'Conservative' | 'Liberal' | 'Independent' | 'World Languages';
+  leaning: 'Conservative' | 'Liberal' | 'Independent' | 'World Languages' | 'World Finances';
   logoUrl?: string; // Optional: for displaying logos
 }
 
@@ -88,16 +88,49 @@ const personalities: Personality[] = [
   { name: 'Aftenposten (Norwegian)', category: 'Newspaper', rssFeedUrl: 'https://www.aftenposten.no/rss', leaning: 'World Languages' },
   { name: 'Svenska Dagbladet (Swedish)', category: 'Newspaper', rssFeedUrl: 'https://www.svd.se/?service=rss', leaning: 'World Languages' },
   { name: 'Helsingin Sanomat (Finnish)', category: 'Newspaper', rssFeedUrl: 'https://www.hs.fi/rss/teasers/etusivu.xml', leaning: 'World Languages' },
+
+  // World Finances
+  // English
+  { name: 'The Wall Street Journal (Finance)', category: 'Financial News', rssFeedUrl: 'https://feeds.a.dj.com/rss/RSSMarketsMain.xml', leaning: 'World Finances' },
+  { name: 'Financial Times', category: 'Financial News', rssFeedUrl: 'https://www.ft.com/rss/home/us', leaning: 'World Finances' },
+  // Mandarin
+  { name: 'Caijing (财经)', category: 'Financial News', rssFeedUrl: 'http://www.caijing.com.cn/rss/home.xml', leaning: 'World Finances' },
+  { name: 'Nikkei Chinese (日经中文网)', category: 'Financial News', rssFeedUrl: 'https://cn.nikkei.com/rss/nikkei-chinese-all.xml', leaning: 'World Finances' },
+  // Hindi
+  { name: 'Economic Times Hindi', category: 'Financial News', rssFeedUrl: 'https://economictimes.indiatimes.com/hindi/rssfeeds_hindimain.cms', leaning: 'World Finances' },
+  { name: 'Business Standard Hindi', category: 'Financial News', rssFeedUrl: 'https://www.business-standard.com/rss/hindi-101.rss', leaning: 'World Finances' },
+  // Spanish
+  { name: 'Cinco Días (Spain)', category: 'Financial News', rssFeedUrl: 'https://cincodias.elpais.com/rss/cincodias/portada.xml', leaning: 'World Finances' },
+  { name: 'El Economista (Mexico)', category: 'Financial News', rssFeedUrl: 'https://www.eleconomista.com.mx/rss/ultimas-noticias', leaning: 'World Finances' },
+  // French
+  { name: 'Les Échos (France)', category: 'Financial News', rssFeedUrl: 'https://www.lesechos.fr/rss/rss_une.xml', leaning: 'World Finances' },
+  { name: 'La Presse Affaires (Canada)', category: 'Financial News', rssFeedUrl: 'https://www.lapresse.ca/affaires/rss', leaning: 'World Finances' },
+  // Arabic
+  { name: 'Al Mal News (المال نيوز)', category: 'Financial News', rssFeedUrl: 'https://almalnews.com/feed/', leaning: 'World Finances' },
+  { name: 'Argaam (أرقام)', category: 'Financial News', rssFeedUrl: 'https://www.argaam.com/ar/rss', leaning: 'World Finances' },
+  // Bengali
+  { name: 'The Financial Express (BD)', category: 'Financial News', rssFeedUrl: 'https://thefinancialexpress.com.bd/rss/feed', leaning: 'World Finances' },
+  { name: 'Bonik Barta (বণিক বার্তা)', category: 'Financial News', rssFeedUrl: 'https://bonikbarta.net/rss/', leaning: 'World Finances' },
+  // Portuguese
+  { name: 'Valor Econômico (Brazil)', category: 'Financial News', rssFeedUrl: 'https://valor.globo.com/rss/valor-economico.xml', leaning: 'World Finances' },
+  { name: 'Jornal de Negócios (Portugal)', category: 'Financial News', rssFeedUrl: 'https://www.jornaldenegocios.pt/rss', leaning: 'World Finances' },
+  // Russian
+  { name: 'Kommersant (Коммерсантъ)', category: 'Financial News', rssFeedUrl: 'https://www.kommersant.ru/RSS/main.xml', leaning: 'World Finances' },
+  { name: 'Vedomosti (Ведомости)', category: 'Financial News', rssFeedUrl: 'https://www.vedomosti.ru/rss/news', leaning: 'World Finances' },
+  // Indonesian
+  { name: 'Bisnis Indonesia', category: 'Financial News', rssFeedUrl: 'https://www.bisnis.com/rss', leaning: 'World Finances' },
+  { name: 'Kontan', category: 'Financial News', rssFeedUrl: 'https://rss.kontan.co.id/', leaning: 'World Finances' },
 ];
 
 const conservativePersonalities = personalities.filter(p => p.leaning === 'Conservative');
 const liberalPersonalities = personalities.filter(p => p.leaning === 'Liberal');
 const independentPersonalities = personalities.filter(p => p.leaning === 'Independent');
 const worldLanguagesPersonalities = personalities.filter(p => p.leaning === 'World Languages');
+const worldFinancesPersonalities = personalities.filter(p => p.leaning === 'World Finances');
 
 const Personalities: React.FC = () => {
   const [selectedPersonality, setSelectedPersonality] = useState<Personality | null>(conservativePersonalities[0]);
-  const [activeTab, setActiveTab] = useState<'Conservative' | 'Liberal' | 'Independent' | 'World Languages'>('Conservative');
+  const [activeTab, setActiveTab] = useState<'Conservative' | 'Liberal' | 'Independent' | 'World Languages' | 'World Finances'>('Conservative');
   const [feed, setFeed] = useState<FeedItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -156,6 +189,12 @@ const Personalities: React.FC = () => {
           >
             World Languages
           </button>
+          <button 
+            className={`flex-1 py-2 text-sm font-semibold ${activeTab === 'World Finances' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'}`}
+            onClick={() => setActiveTab('World Finances')}
+          >
+            World Finances
+          </button>
         </div>
 
         <ul>
@@ -163,7 +202,8 @@ const Personalities: React.FC = () => {
             activeTab === 'Conservative' ? conservativePersonalities :
             activeTab === 'Liberal' ? liberalPersonalities :
             activeTab === 'Independent' ? independentPersonalities :
-            worldLanguagesPersonalities
+            activeTab === 'World Languages' ? worldLanguagesPersonalities :
+            worldFinancesPersonalities
           ).map((p) => (
             <li
               key={p.name}
