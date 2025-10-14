@@ -6,7 +6,7 @@ interface Personality {
   name: string;
   category: string;
   rssFeedUrl: string;
-  leaning: 'Conservative' | 'Liberal' | 'Independent' | 'World Languages' | 'World Finances';
+  leaning: 'Conservative' | 'Liberal' | 'Independent' | 'World Languages' | 'World Finances' | 'LGBTQ';
   logoUrl?: string; // Optional: for displaying logos
 }
 
@@ -120,6 +120,18 @@ const personalities: Personality[] = [
   // Indonesian
   { name: 'Bisnis Indonesia', category: 'Financial News', rssFeedUrl: 'https://www.bisnis.com/rss', leaning: 'World Finances' },
   { name: 'Kontan', category: 'Financial News', rssFeedUrl: 'https://rss.kontan.co.id/', leaning: 'World Finances' },
+
+  // LGBTQ+
+  { name: 'The Advocate', category: 'News, politics, and culture', rssFeedUrl: 'https://www.advocate.com/rss.xml', leaning: 'LGBTQ' },
+  { name: 'Out Magazine', category: 'Lifestyle, fashion, entertainment, and news', rssFeedUrl: 'https://www.out.com/rss.xml', leaning: 'LGBTQ' },
+  { name: 'PinkNews', category: 'Global LGBTQ+ breaking news', rssFeedUrl: 'https://www.thepinknews.com/feed/', leaning: 'LGBTQ' },
+  { name: 'Queerty', category: 'Online magazine', rssFeedUrl: 'https://www.queerty.com/feed', leaning: 'LGBTQ' },
+  { name: 'LGBTQ Nation', category: 'Online news and political reporting', rssFeedUrl: 'https://www.lgbtqnation.com/feed/', leaning: 'LGBTQ' },
+  { name: 'Attitude', category: 'Gay magazine', rssFeedUrl: 'https://www.attitude.co.uk/feed/', leaning: 'LGBTQ' },
+  { name: 'Gay Times', category: 'Music, fashion, entertainment, and culture', rssFeedUrl: 'https://www.gaytimes.co.uk/feed/', leaning: 'LGBTQ' },
+  { name: 'Them', category: 'Culture, style, community, and news', rssFeedUrl: 'https://www.them.us/feed/rss', leaning: 'LGBTQ' },
+  { name: 'Autostraddle', category: 'Independent publication', rssFeedUrl: 'https://www.autostraddle.com/feed/', leaning: 'LGBTQ' },
+  { name: 'The Washington Blade', category: 'News and political reporting', rssFeedUrl: 'https://www.washingtonblade.com/feed/', leaning: 'LGBTQ' },
 ];
 
 const conservativePersonalities = personalities.filter(p => p.leaning === 'Conservative');
@@ -127,10 +139,11 @@ const liberalPersonalities = personalities.filter(p => p.leaning === 'Liberal');
 const independentPersonalities = personalities.filter(p => p.leaning === 'Independent');
 const worldLanguagesPersonalities = personalities.filter(p => p.leaning === 'World Languages');
 const worldFinancesPersonalities = personalities.filter(p => p.leaning === 'World Finances');
+const lgbtqPersonalities = personalities.filter(p => p.leaning === 'LGBTQ');
 
 const Personalities: React.FC = () => {
   const [selectedPersonality, setSelectedPersonality] = useState<Personality | null>(conservativePersonalities[0]);
-  const [activeTab, setActiveTab] = useState<'Conservative' | 'Liberal' | 'Independent' | 'World Languages' | 'World Finances'>('Conservative');
+  const [activeTab, setActiveTab] = useState<'Conservative' | 'Liberal' | 'Independent' | 'World Languages' | 'World Finances' | 'LGBTQ'>('Conservative');
   const [feed, setFeed] = useState<FeedItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -195,6 +208,12 @@ const Personalities: React.FC = () => {
           >
             World Finances
           </button>
+          <button 
+            className={`flex-1 py-2 text-sm font-semibold ${activeTab === 'LGBTQ' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'}`}
+            onClick={() => setActiveTab('LGBTQ')}
+          >
+            LGBTQ
+          </button>
         </div>
 
         <ul>
@@ -203,7 +222,8 @@ const Personalities: React.FC = () => {
             activeTab === 'Liberal' ? liberalPersonalities :
             activeTab === 'Independent' ? independentPersonalities :
             activeTab === 'World Languages' ? worldLanguagesPersonalities :
-            worldFinancesPersonalities
+            activeTab === 'World Finances' ? worldFinancesPersonalities :
+            lgbtqPersonalities
           ).map((p) => (
             <li
               key={p.name}
