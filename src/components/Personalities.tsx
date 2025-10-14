@@ -6,7 +6,7 @@ interface Personality {
   name: string;
   category: string;
   rssFeedUrl: string;
-  leaning: 'Republican' | 'Democrat';
+  leaning: 'Conservative' | 'Liberal' | 'Independent';
   logoUrl?: string; // Optional: for displaying logos
 }
 
@@ -21,46 +21,65 @@ interface FeedItem {
 
 // List of personalities based on your request
 const personalities: Personality[] = [
-  // Republican Leaning
-  { name: 'Fox News', category: 'News Network', rssFeedUrl: 'http://feeds.foxnews.com/foxnews/latest', leaning: 'Republican' },
-  { name: 'The Daily Wire', category: 'Commentary', rssFeedUrl: 'https://www.dailywire.com/feeds/rss.xml', leaning: 'Republican' },
-  { name: 'Newsmax', category: 'News Network', rssFeedUrl: 'https://www.newsmax.com/rss/Major-News/1/', leaning: 'Republican' },
-  { name: 'Breitbart News', category: 'News & Opinion', rssFeedUrl: 'http://feeds.breitbart.com/breitbart', leaning: 'Republican' },
-  { name: 'The Wall Street Journal', category: 'Business News', rssFeedUrl: 'https://feeds.a.dj.com/rss/RSSWorldNews.xml', leaning: 'Republican' },
-  { name: 'The Joe Rogan Experience', category: 'Podcast', rssFeedUrl: 'https://joeroganexp.libsyn.com/rss', leaning: 'Republican' }, // Note: This is a podcast feed
-  { name: 'The New York Post', category: 'Newspaper', rssFeedUrl: 'https://nypost.com/feed/', leaning: 'Republican' },
-  { name: 'The Dispatch', category: 'Commentary', rssFeedUrl: 'https://thedispatch.com/feed', leaning: 'Republican' },
-  { name: 'Forbes', category: 'Business News', rssFeedUrl: 'https://www.forbes.com/real-time/feed2/', leaning: 'Republican' },
-  { name: 'Fox Business', category: 'Business News', rssFeedUrl: 'http://feeds.foxbusiness.com/foxbusiness/latest', leaning: 'Republican' },
-  { name: 'RedState', category: 'Political Blog', rssFeedUrl: 'https://redstate.com/feed', leaning: 'Republican' },
-  { name: 'The Washington Times', category: 'Newspaper', rssFeedUrl: 'https://www.washingtontimes.com/rss/headlines/news/', leaning: 'Republican' },
-  { name: 'PJ Media', category: 'Commentary', rssFeedUrl: 'https://pjmedia.com/feed/', leaning: 'Republican' },
-  { name: 'Townhall', category: 'News & Opinion', rssFeedUrl: 'https://townhall.com/rss/columnists/', leaning: 'Republican' },
-  { name: 'The Blaze', category: 'Media Network', rssFeedUrl: 'https://www.theblaze.com/feeds/rss', leaning: 'Republican' },
+  // Conservative Leaning
+  { name: 'Fox News', category: 'News Network', rssFeedUrl: 'http://feeds.foxnews.com/foxnews/latest', leaning: 'Conservative' },
+  { name: 'The Daily Wire', category: 'Commentary', rssFeedUrl: 'https://www.dailywire.com/feeds/rss.xml', leaning: 'Conservative' },
+  { name: 'Newsmax', category: 'News Network', rssFeedUrl: 'https://www.newsmax.com/rss/Major-News/1/', leaning: 'Conservative' },
+  { name: 'Breitbart News', category: 'News & Opinion', rssFeedUrl: 'http://feeds.breitbart.com/breitbart', leaning: 'Conservative' },
+  { name: 'The Wall Street Journal', category: 'Business News', rssFeedUrl: 'https://feeds.a.dj.com/rss/RSSWorldNews.xml', leaning: 'Conservative' },
+  { name: 'The Joe Rogan Experience', category: 'Podcast', rssFeedUrl: 'https://joeroganexp.libsyn.com/rss', leaning: 'Conservative' }, // Note: This is a podcast feed
+  { name: 'The New York Post', category: 'Newspaper', rssFeedUrl: 'https://nypost.com/feed/', leaning: 'Conservative' },
+  { name: 'The Dispatch', category: 'Commentary', rssFeedUrl: 'https://thedispatch.com/feed', leaning: 'Conservative' },
+  { name: 'Forbes', category: 'Business News', rssFeedUrl: 'https://www.forbes.com/real-time/feed2/', leaning: 'Conservative' },
+  { name: 'Fox Business', category: 'Business News', rssFeedUrl: 'http://feeds.foxbusiness.com/foxbusiness/latest', leaning: 'Conservative' },
+  { name: 'RedState', category: 'Political Blog', rssFeedUrl: 'https://redstate.com/feed', leaning: 'Conservative' },
+  { name: 'The Washington Times', category: 'Newspaper', rssFeedUrl: 'https://www.washingtontimes.com/rss/headlines/news/', leaning: 'Conservative' },
+  { name: 'PJ Media', category: 'Commentary', rssFeedUrl: 'https://pjmedia.com/feed/', leaning: 'Conservative' },
+  { name: 'Townhall', category: 'News & Opinion', rssFeedUrl: 'https://townhall.com/rss/columnists/', leaning: 'Conservative' },
+  { name: 'The Blaze', category: 'Media Network', rssFeedUrl: 'https://www.theblaze.com/feeds/rss', leaning: 'Conservative' },
 
-  // Democrat Leaning
-  { name: 'CNN', category: 'News Network', rssFeedUrl: 'http://rss.cnn.com/rss/cnn_topstories.rss', leaning: 'Democrat' },
-  { name: 'The New York Times', category: 'Newspaper', rssFeedUrl: 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml', leaning: 'Democrat' },
-  { name: 'MSNBC', category: 'News Network', rssFeedUrl: 'http://www.msnbc.com/feeds/latest', leaning: 'Democrat' },
-  { name: 'The Washington Post', category: 'Newspaper', rssFeedUrl: 'http://feeds.washingtonpost.com/rss/politics', leaning: 'Democrat' },
-  { name: 'NPR', category: 'Public Radio', rssFeedUrl: 'https://feeds.npr.org/1001/rss.xml', leaning: 'Democrat' },
-  { name: 'PBS', category: 'Public Television', rssFeedUrl: 'https://www.pbs.org/newshour/feeds/rss/headlines', leaning: 'Democrat' },
-  { name: 'ABC News', category: 'Broadcast Network', rssFeedUrl: 'https://abcnews.go.com/abcnews/topstories', leaning: 'Democrat' },
-  { name: 'NBC News', category: 'Broadcast Network', rssFeedUrl: 'http://feeds.nbcnews.com/nbcnews/public/news', leaning: 'Democrat' },
-  { name: 'CBS News', category: 'Broadcast Network', rssFeedUrl: 'https://www.cbsnews.com/latest/rss/main', leaning: 'Democrat' },
-  { name: 'BBC News', category: 'International Broadcast', rssFeedUrl: 'http://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml', leaning: 'Democrat' },
-  { name: 'The Associated Press', category: 'News Agency', rssFeedUrl: 'https://apnews.com/hub/ap-top-news/rss.xml', leaning: 'Democrat' },
-  { name: 'The Atlantic', category: 'Magazine', rssFeedUrl: 'https://www.theatlantic.com/feed/all/', leaning: 'Democrat' },
-  { name: 'HuffPost', category: 'Website/Blog', rssFeedUrl: 'https://www.huffpost.com/section/front-page/feed', leaning: 'Democrat' },
-  { name: 'Vox', category: 'Website/Blog', rssFeedUrl: 'https://www.vox.com/rss/index.xml', leaning: 'Democrat' },
+  // Liberal Leaning
+  { name: 'NPR', category: 'Public Radio', rssFeedUrl: 'https://feeds.npr.org/1001/rss.xml', leaning: 'Liberal' },
+  { name: 'PBS', category: 'Public Television', rssFeedUrl: 'https://www.pbs.org/newshour/feeds/rss/headlines', leaning: 'Liberal' },
+  { name: 'The New York Times', category: 'Newspaper', rssFeedUrl: 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml', leaning: 'Liberal' },
+  { name: 'The Washington Post', category: 'Newspaper', rssFeedUrl: 'http://feeds.washingtonpost.com/rss/politics', leaning: 'Liberal' },
+  { name: 'MSNBC', category: 'News Network', rssFeedUrl: 'http://www.msnbc.com/feeds/latest', leaning: 'Liberal' },
+  { name: 'The Atlantic', category: 'Magazine', rssFeedUrl: 'https://www.theatlantic.com/feed/all/', leaning: 'Liberal' },
+  { name: 'HuffPost', category: 'Website/Blog', rssFeedUrl: 'https://www.huffpost.com/section/front-page/feed', leaning: 'Liberal' },
+  { name: 'Vox', category: 'Website/Blog', rssFeedUrl: 'https://www.vox.com/rss/index.xml', leaning: 'Liberal' },
+  { name: 'Mother Jones', category: 'Magazine/Website', rssFeedUrl: 'https://www.motherjones.com/feed/', leaning: 'Liberal' },
+  { name: 'The Nation', category: 'Magazine/Website', rssFeedUrl: 'https://www.thenation.com/feed/', leaning: 'Liberal' },
+  { name: 'Daily Kos', category: 'Website/Blog', rssFeedUrl: 'https://www.dailykos.com/blogs/main/rss', leaning: 'Liberal' },
+  { name: 'The New Republic', category: 'Magazine/Website', rssFeedUrl: 'https://newrepublic.com/feed/', leaning: 'Liberal' },
+  { name: 'ProPublica', category: 'Website', rssFeedUrl: 'http://feeds.propublica.org/propublica/main', leaning: 'Liberal' },
+  { name: 'The Guardian', category: 'Website/Newspaper', rssFeedUrl: 'https://www.theguardian.com/us-news/rss', leaning: 'Liberal' },
+  { name: 'The American Prospect', category: 'Magazine/Website', rssFeedUrl: 'https://prospect.org/feed/', leaning: 'Liberal' },
+
+  // Independent Leaning
+  { name: 'The Associated Press (AP)', category: 'News Agency', rssFeedUrl: 'https://apnews.com/hub/ap-top-news/rss.xml', leaning: 'Independent' },
+  { name: 'Reuters', category: 'News Agency', rssFeedUrl: 'http://feeds.reuters.com/reuters/topNews', leaning: 'Independent' },
+  { name: 'ABC News', category: 'Broadcast Network', rssFeedUrl: 'https://abcnews.go.com/abcnews/topstories', leaning: 'Independent' },
+  { name: 'NBC News', category: 'Broadcast Network', rssFeedUrl: 'http://feeds.nbcnews.com/nbcnews/public/news', leaning: 'Independent' },
+  { name: 'CBS News', category: 'Broadcast Network', rssFeedUrl: 'https://www.cbsnews.com/latest/rss/main', leaning: 'Independent' },
+  { name: 'BBC News', category: 'International Broadcast', rssFeedUrl: 'http://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml', leaning: 'Independent' },
+  { name: 'The Hill', category: 'Website', rssFeedUrl: 'https://thehill.com/rss/syndicator/19110', leaning: 'Independent' },
+  { name: 'FiveThirtyEight', category: 'Website/Blog', rssFeedUrl: 'https://fivethirtyeight.com/features/feed/', leaning: 'Independent' },
+  { name: 'Politico', category: 'Website', rssFeedUrl: 'http://rss.politico.com/politico/politics.xml', leaning: 'Independent' },
+  { name: 'USA Today', category: 'Website/Newspaper', rssFeedUrl: 'http://rssfeeds.usatoday.com/usatoday-NewsTopStories', leaning: 'Independent' },
+  { name: 'C-SPAN', category: 'Public Affairs', rssFeedUrl: 'https://www.c-span.org/rss/video.rss', leaning: 'Independent' },
+  { name: 'RealClearPolitics', category: 'Political News Aggregator', rssFeedUrl: 'http://feeds.feedburner.com/realclearpolitics/articles', leaning: 'Independent' },
+  { name: 'Snopes', category: 'Fact-Checking', rssFeedUrl: 'https://www.snopes.com/feed/', leaning: 'Independent' },
+  { name: 'FactCheck.org', category: 'Fact-Checking', rssFeedUrl: 'https://www.factcheck.org/feed/', leaning: 'Independent' },
+  { name: 'AllSides', category: 'Media Bias Ratings', rssFeedUrl: 'https://www.allsides.com/rss/blog', leaning: 'Independent' },
 ];
 
-const republicanPersonalities = personalities.filter(p => p.leaning === 'Republican');
-const democratPersonalities = personalities.filter(p => p.leaning === 'Democrat');
+const conservativePersonalities = personalities.filter(p => p.leaning === 'Conservative');
+const liberalPersonalities = personalities.filter(p => p.leaning === 'Liberal');
+const independentPersonalities = personalities.filter(p => p.leaning === 'Independent');
 
 const Personalities: React.FC = () => {
-  const [selectedPersonality, setSelectedPersonality] = useState<Personality | null>(republicanPersonalities[0]);
-  const [activeTab, setActiveTab] = useState<'Republican' | 'Democrat'>('Republican');
+  const [selectedPersonality, setSelectedPersonality] = useState<Personality | null>(conservativePersonalities[0]);
+  const [activeTab, setActiveTab] = useState<'Conservative' | 'Liberal' | 'Independent'>('Conservative');
   const [feed, setFeed] = useState<FeedItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -96,21 +115,27 @@ const Personalities: React.FC = () => {
         
         <div className="flex border-b border-gray-700 mb-4">
           <button 
-            className={`flex-1 py-2 text-sm font-semibold ${activeTab === 'Republican' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'}`}
-            onClick={() => setActiveTab('Republican')}
+            className={`flex-1 py-2 text-sm font-semibold ${activeTab === 'Conservative' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'}`}
+            onClick={() => setActiveTab('Conservative')}
           >
-            Republican
+            Conservative
           </button>
           <button 
-            className={`flex-1 py-2 text-sm font-semibold ${activeTab === 'Democrat' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'}`}
-            onClick={() => setActiveTab('Democrat')}
+            className={`flex-1 py-2 text-sm font-semibold ${activeTab === 'Liberal' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'}`}
+            onClick={() => setActiveTab('Liberal')}
           >
-            Democrat
+            Liberal
+          </button>
+          <button 
+            className={`flex-1 py-2 text-sm font-semibold ${activeTab === 'Independent' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'}`}
+            onClick={() => setActiveTab('Independent')}
+          >
+            Independent
           </button>
         </div>
 
         <ul>
-          {(activeTab === 'Republican' ? republicanPersonalities : democratPersonalities).map((p) => (
+          {(activeTab === 'Conservative' ? conservativePersonalities : (activeTab === 'Liberal' ? liberalPersonalities : independentPersonalities)).map((p) => (
             <li
               key={p.name}
               className={`p-2 rounded cursor-pointer ${selectedPersonality?.name === p.name ? 'bg-blue-600' : 'hover:bg-gray-700'}`}
