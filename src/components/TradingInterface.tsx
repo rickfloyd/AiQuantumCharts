@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Settings, Maximize2, BarChart3, LineChart, CandlestickChart, Square, Zap, Activity, TrendingUp } from 'lucide-react';
+import Personalities from './Personalities';
+import { Settings, Maximize2, BarChart3, LineChart, CandlestickChart, Square, Zap, Activity, TrendingUp, Users } from 'lucide-react';
 
 interface TradingInterfaceProps {
   onTimeframeChange?: (timeframe: string) => void;
@@ -15,6 +16,7 @@ const TradingInterface: React.FC<TradingInterfaceProps> = ({
   const [isTrading, setIsTrading] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [activeTab, setActiveTab] = useState('chart');
 
   const timeframes = [
     { label: '1m', value: '1m', color: 'fluorescent-pink' },
@@ -80,23 +82,32 @@ const TradingInterface: React.FC<TradingInterfaceProps> = ({
           <div className="h-8 w-px bg-electric-purple shadow-neon-blue"></div>
           
           <div className="flex items-center space-x-2">
-            {chartTypes.map((chart) => {
-              const IconComponent = chart.icon;
-              return (
-                <button
-                  key={chart.type}
-                  onClick={() => handleChartTypeClick(chart.type)}
-                  className={`p-3 rounded-lg transition-all duration-300 border-2 ${
-                    activeChartType === chart.type
-                      ? `text-deep-black bg-${chart.color} border-${chart.color} shadow-neon-orange animate-bounce-glow`
-                      : `text-${chart.color} bg-deep-black/50 border-${chart.color} hover:bg-charcoal hover:shadow-neon-cyan`
-                  }`}
-                  title={chart.label}
-                >
-                  <IconComponent className="w-5 h-5" />
-                </button>
-              );
-            })}
+            {chartTypes.map(({ type, icon: Icon, label, color }) => (
+              <button
+                key={type}
+                onClick={() => handleChartTypeClick(type)}
+                className={`p-3 rounded-lg transition-all duration-300 border-2 ${
+                  activeChartType === type
+                    ? `text-deep-black bg-${color} border-${color} shadow-neon-orange animate-bounce-glow`
+                    : `text-${color} bg-deep-black/50 border-${color} hover:bg-charcoal hover:shadow-neon-cyan`
+                }`}
+                title={label}
+              >
+                <Icon size={20} />
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <button onClick={() => setActiveTab('personalities')} className={`p-2 rounded-md ${activeTab === 'personalities' ? 'bg-blue-600' : 'hover:bg-gray-700'}`}>
+              <Users size={20} />
+            </button>
+            <button onClick={() => setShowSettings(!showSettings)} className="p-2 rounded-md hover:bg-gray-700">
+              <Settings size={20} />
+            </button>
+            <button onClick={handleMaximizeClick} className="p-2 rounded-md hover:bg-gray-700">
+              <Maximize2 size={20} />
+            </button>
           </div>
         </div>
 
@@ -160,6 +171,20 @@ const TradingInterface: React.FC<TradingInterfaceProps> = ({
             )}
           </button>
         </div>
+      </div>
+
+      {/* Main Content Area */}
+      <div className="flex-grow p-4 bg-gray-900 rounded-b-lg">
+        {activeTab === 'chart' && (
+          <div className="h-full w-full bg-black rounded-md">
+            {/* EnhancedChart or other chart component will go here */}
+          </div>
+        )}
+        {activeTab === 'personalities' && (
+          <div className="h-full w-full bg-black rounded-md">
+            {/* Personalities component will go here */}
+          </div>
+        )}
       </div>
 
       {/* Settings Panel */}

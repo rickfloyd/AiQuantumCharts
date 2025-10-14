@@ -12,6 +12,7 @@ import miningRoutes from './routes/mining';
 import chatRoutes from './routes/chat';
 import gameRoutes from './routes/gaming';
 import marketRoutes from './routes/market';
+import personalitiesRoutes from './routes/personalities';
 
 // Custom error interface
 interface CustomError extends Error {
@@ -90,7 +91,7 @@ class QuantumChartsServer {
     this.app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
     // Health check endpoint
-    this.app.get('/health', (_req: Request, res: Response) => {
+    this.app.get('/health', (req: Request, res: Response) => {
       res.status(200).json({
         status: 'OK',
         timestamp: new Date().toISOString(),
@@ -109,13 +110,14 @@ class QuantumChartsServer {
     this.app.use('/api/chat', chatRoutes);
     this.app.use('/api/gaming', gameRoutes);
     this.app.use('/api/market', marketRoutes);
+    this.app.use('/api/personalities', personalitiesRoutes);
 
     // Serve static files in production
     if (process.env.NODE_ENV === 'production') {
       this.app.use(express.static('dist'));
       
       // Catch all handler for SPA
-      this.app.get('*', (_req: Request, res: Response) => {
+      this.app.get('*', (req: Request, res: Response) => {
         res.sendFile('index.html', { root: 'dist' });
       });
     }
