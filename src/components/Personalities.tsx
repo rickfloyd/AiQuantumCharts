@@ -6,7 +6,7 @@ interface Personality {
   name: string;
   category: string;
   rssFeedUrl: string;
-  leaning: 'Conservative' | 'Liberal' | 'Independent';
+  leaning: 'Conservative' | 'Liberal' | 'Independent' | 'World Languages';
   logoUrl?: string; // Optional: for displaying logos
 }
 
@@ -71,15 +71,33 @@ const personalities: Personality[] = [
   { name: 'Snopes', category: 'Fact-Checking', rssFeedUrl: 'https://www.snopes.com/feed/', leaning: 'Independent' },
   { name: 'FactCheck.org', category: 'Fact-Checking', rssFeedUrl: 'https://www.factcheck.org/feed/', leaning: 'Independent' },
   { name: 'AllSides', category: 'Media Bias Ratings', rssFeedUrl: 'https://www.allsides.com/rss/blog', leaning: 'Independent' },
+
+  // World Languages
+  { name: 'Le Monde (French)', category: 'Newspaper', rssFeedUrl: 'https://www.lemonde.fr/rss/une.xml', leaning: 'World Languages' },
+  { name: 'El País (Spanish)', category: 'Newspaper', rssFeedUrl: 'https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada', leaning: 'World Languages' },
+  { name: 'Der Spiegel (German)', category: 'Magazine', rssFeedUrl: 'https://www.spiegel.de/international/index.rss', leaning: 'World Languages' },
+  { name: 'La Repubblica (Italian)', category: 'Newspaper', rssFeedUrl: 'https://www.repubblica.it/rss/homepage/rss2.0.xml', leaning: 'World Languages' },
+  { name: 'Folha de S.Paulo (Portuguese)', category: 'Newspaper', rssFeedUrl: 'https://feeds.folha.uol.com.br/emcimadahora/rss.xml', leaning: 'World Languages' },
+  { name: 'Asahi Shimbun (Japanese)', category: 'Newspaper', rssFeedUrl: 'https://www.asahi.com/rss/asahi/newsheadlines.rdf', leaning: 'World Languages' },
+  { name: 'People\'s Daily (Chinese)', category: 'Newspaper', rssFeedUrl: 'http://en.people.cn/rss/world.xml', leaning: 'World Languages' },
+  { name: 'The Moscow Times (Russian)', category: 'Newspaper', rssFeedUrl: 'https://www.themoscowtimes.com/rss/news', leaning: 'World Languages' },
+  { name: 'Al Jazeera (Arabic)', category: 'News Network', rssFeedUrl: 'https://www.aljazeera.net/aljazeerarss/a7c182be-1baa-4bd4-9d80-a84db769f779/73d0e1b4-532f-45ef-b135-bfdff8b869be', leaning: 'World Languages' },
+  { name: 'The Times of India (Hindi)', category: 'Newspaper', rssFeedUrl: 'https://timesofindia.indiatimes.com/rssfeedstopstories.cms', leaning: 'World Languages' },
+  { name: 'Yle (Finnish)', category: 'Public Broadcast', rssFeedUrl: 'https://feeds.yle.fi/uutiset/v1/majorHeadlines/YLE_UUTISET.rss', leaning: 'World Languages' },
+  { name: 'De Telegraaf (Dutch)', category: 'Newspaper', rssFeedUrl: 'https://www.telegraaf.nl/rss', leaning: 'World Languages' },
+  { name: 'Aftenposten (Norwegian)', category: 'Newspaper', rssFeedUrl: 'https://www.aftenposten.no/rss', leaning: 'World Languages' },
+  { name: 'Svenska Dagbladet (Swedish)', category: 'Newspaper', rssFeedUrl: 'https://www.svd.se/?service=rss', leaning: 'World Languages' },
+  { name: 'Helsingin Sanomat (Finnish)', category: 'Newspaper', rssFeedUrl: 'https://www.hs.fi/rss/teasers/etusivu.xml', leaning: 'World Languages' },
 ];
 
 const conservativePersonalities = personalities.filter(p => p.leaning === 'Conservative');
 const liberalPersonalities = personalities.filter(p => p.leaning === 'Liberal');
 const independentPersonalities = personalities.filter(p => p.leaning === 'Independent');
+const worldLanguagesPersonalities = personalities.filter(p => p.leaning === 'World Languages');
 
 const Personalities: React.FC = () => {
   const [selectedPersonality, setSelectedPersonality] = useState<Personality | null>(conservativePersonalities[0]);
-  const [activeTab, setActiveTab] = useState<'Conservative' | 'Liberal' | 'Independent'>('Conservative');
+  const [activeTab, setActiveTab] = useState<'Conservative' | 'Liberal' | 'Independent' | 'World Languages'>('Conservative');
   const [feed, setFeed] = useState<FeedItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -132,10 +150,21 @@ const Personalities: React.FC = () => {
           >
             Independent
           </button>
+          <button 
+            className={`flex-1 py-2 text-sm font-semibold ${activeTab === 'World Languages' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'}`}
+            onClick={() => setActiveTab('World Languages')}
+          >
+            World Languages
+          </button>
         </div>
 
         <ul>
-          {(activeTab === 'Conservative' ? conservativePersonalities : (activeTab === 'Liberal' ? liberalPersonalities : independentPersonalities)).map((p) => (
+          {(
+            activeTab === 'Conservative' ? conservativePersonalities :
+            activeTab === 'Liberal' ? liberalPersonalities :
+            activeTab === 'Independent' ? independentPersonalities :
+            worldLanguagesPersonalities
+          ).map((p) => (
             <li
               key={p.name}
               className={`p-2 rounded cursor-pointer ${selectedPersonality?.name === p.name ? 'bg-blue-600' : 'hover:bg-gray-700'}`}
