@@ -6,7 +6,7 @@ interface Personality {
   name: string;
   category: string;
   rssFeedUrl: string;
-  leaning: 'Conservative' | 'Liberal' | 'Independent' | 'World Languages' | 'World Finances' | 'LGBTQ';
+  leaning: 'Conservative' | 'Liberal' | 'Independent' | 'World Languages' | 'World Finances' | 'LGBTQ' | 'News' | 'Religious';
   logoUrl?: string; // Optional: for displaying logos
 }
 
@@ -132,6 +132,25 @@ const personalities: Personality[] = [
   { name: 'Them', category: 'Culture, style, community, and news', rssFeedUrl: 'https://www.them.us/feed/rss', leaning: 'LGBTQ' },
   { name: 'Autostraddle', category: 'Independent publication', rssFeedUrl: 'https://www.autostraddle.com/feed/', leaning: 'LGBTQ' },
   { name: 'The Washington Blade', category: 'News and political reporting', rssFeedUrl: 'https://www.washingtonblade.com/feed/', leaning: 'LGBTQ' },
+
+  // News
+  { name: 'Associated Press', category: 'News', rssFeedUrl: 'https://apnews.com/hub/ap-top-news/rss.xml', leaning: 'News' },
+  { name: 'Reuters', category: 'News', rssFeedUrl: 'http://feeds.reuters.com/reuters/topNews', leaning: 'News' },
+  { name: 'BBC News', category: 'News', rssFeedUrl: 'http://feeds.bbci.co.uk/news/rss.xml', leaning: 'News' },
+  { name: 'The New York Times', category: 'News', rssFeedUrl: 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml', leaning: 'News' },
+  { name: 'The Guardian', category: 'News', rssFeedUrl: 'https://www.theguardian.com/world/rss', leaning: 'News' },
+
+  // Religious
+  { name: 'Christianity Today', category: 'Christianity', rssFeedUrl: 'https://www.christianitytoday.com/ct/rss.xml', leaning: 'Religious' },
+  { name: 'Catholic News Agency', category: 'Catholicism', rssFeedUrl: 'https://www.catholicnewsagency.com/rss/news.xml', leaning: 'Religious' },
+  { name: 'Chabad.org', category: 'Judaism', rssFeedUrl: 'https://www.chabad.org/tools/rss/rss.xml', leaning: 'Religious' },
+  { name: 'Islamicity', category: 'Islam', rssFeedUrl: 'https://www.islamicity.org/feed/', leaning: 'Religious' },
+  { name: 'Hinduism Today', category: 'Hinduism', rssFeedUrl: 'https://www.hinduismtoday.com/feed/', leaning: 'Religious' },
+  { name: 'Lion\'s Roar', category: 'Buddhism', rssFeedUrl: 'https://www.lionsroar.com/feed/', leaning: 'Religious' },
+  { name: 'The Sikh Times', category: 'Sikhism', rssFeedUrl: 'https://www.sikhtimes.com/feed/', leaning: 'Religious' },
+  { name: 'JainLink', category: 'Jainism', rssFeedUrl: 'https://www.jainlink.org/feed/', leaning: 'Religious' },
+  { name: 'Baháʼí World News Service', category: 'Baháʼí Faith', rssFeedUrl: 'https://news.bahai.org/rss/', leaning: 'Religious' },
+  { name: 'Shinto News', category: 'Shinto', rssFeedUrl: 'https://www.shintonews.com/feed', leaning: 'Religious' },
 ];
 
 const conservativePersonalities = personalities.filter(p => p.leaning === 'Conservative');
@@ -140,10 +159,12 @@ const independentPersonalities = personalities.filter(p => p.leaning === 'Indepe
 const worldLanguagesPersonalities = personalities.filter(p => p.leaning === 'World Languages');
 const worldFinancesPersonalities = personalities.filter(p => p.leaning === 'World Finances');
 const lgbtqPersonalities = personalities.filter(p => p.leaning === 'LGBTQ');
+const newsPersonalities = personalities.filter(p => p.leaning === 'News');
+const religiousPersonalities = personalities.filter(p => p.leaning === 'Religious');
 
 const Personalities: React.FC = () => {
   const [selectedPersonality, setSelectedPersonality] = useState<Personality | null>(conservativePersonalities[0]);
-  const [activeTab, setActiveTab] = useState<'Conservative' | 'Liberal' | 'Independent' | 'World Languages' | 'World Finances' | 'LGBTQ'>('Conservative');
+  const [activeTab, setActiveTab] = useState<'Conservative' | 'Liberal' | 'Independent' | 'World Languages' | 'World Finances' | 'LGBTQ' | 'News' | 'Religious'>('Conservative');
   const [feed, setFeed] = useState<FeedItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -214,6 +235,18 @@ const Personalities: React.FC = () => {
           >
             LGBTQ
           </button>
+          <button 
+            className={`flex-1 py-2 text-sm font-semibold ${activeTab === 'News' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'}`}
+            onClick={() => setActiveTab('News')}
+          >
+            News
+          </button>
+          <button 
+            className={`flex-1 py-2 text-sm font-semibold ${activeTab === 'Religious' ? 'text-white border-b-2 border-blue-500' : 'text-gray-400'}`}
+            onClick={() => setActiveTab('Religious')}
+          >
+            Religious
+          </button>
         </div>
 
         <ul>
@@ -223,7 +256,9 @@ const Personalities: React.FC = () => {
             activeTab === 'Independent' ? independentPersonalities :
             activeTab === 'World Languages' ? worldLanguagesPersonalities :
             activeTab === 'World Finances' ? worldFinancesPersonalities :
-            lgbtqPersonalities
+            activeTab === 'LGBTQ' ? lgbtqPersonalities :
+            activeTab === 'News' ? newsPersonalities :
+            religiousPersonalities
           ).map((p) => (
             <li
               key={p.name}
