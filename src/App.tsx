@@ -4,11 +4,12 @@ import MarketDataTabs from './components/MarketDataTabs';
 import Education from './components/Education';
 import Transparency from './components/Transparency';
 import Impact from './components/Impact';
+import ComingSoon from './components/ComingSoon';
 import QuantumCommunityHub from './components/QuantumCommunityHub';
 import CommunityWelcome from './components/CommunityWelcome';
 import UserProfile from './components/UserProfile';
 import ErrorBoundary from './components/ErrorBoundary';
-import ComingSoon from './components/ComingSoon';
+import GridDashboard from './components/GridDashboard';
 import './components/HighEnergyAnimations.css';
 
 function App() {
@@ -25,8 +26,9 @@ function App() {
           <ErrorBoundary>
             <div className="min-h-screen bg-deep-black">
               <MarketDataTabs />
+              
+              {/* Featured App Icon Box */}
               <div className="p-6">
-                {/* Featured App Icon Box */}
                 <div className="flex justify-center mb-8">
                   <div className="bg-deep-black/95 border-2 border-fluorescent-pink rounded-xl p-6 shadow-neon-pink animate-pulse-glow hover:border-electric-blue hover:shadow-neon-cyan transition-all duration-300">
                     <div className="text-center">
@@ -52,10 +54,68 @@ function App() {
                     </div>
                   </div>
                 </div>
-
-                {/* Add more dashboard content here */}
+              </div>
+              
+              {/* Grid Dashboard */}
+              <div className="p-6">
+                <GridDashboard />
               </div>
             </div>
+          </ErrorBoundary>
+        } />
+        
+        {/* Trading Routes */}
+        <Route path="/trading" element={
+          <ErrorBoundary>
+            <ComingSoon title="Trading Interface" description="Advanced trading interface coming soon!" />
+          </ErrorBoundary>
+        } />
+        
+        <Route path="/professional" element={
+          <ErrorBoundary>
+            <ComingSoon title="Professional Trading" description="Professional trading layout coming soon!" />
+          </ErrorBoundary>
+        } />
+        
+        <Route path="/chart" element={
+          <ErrorBoundary>
+            <ComingSoon title="Independent Chart" description="Advanced charting tools coming soon!" />
+          </ErrorBoundary>
+        } />
+        
+        <Route path="/enhanced-chart" element={
+          <ErrorBoundary>
+            <ComingSoon title="Enhanced Chart" description="Enhanced charting features coming soon!" />
+          </ErrorBoundary>
+        } />
+        
+        <Route path="/drawing" element={
+          <ErrorBoundary>
+            <ComingSoon title="Drawing Tools" description="Advanced charting and drawing tools coming soon!" />
+          </ErrorBoundary>
+        } />
+        
+        <Route path="/alerts" element={
+          <ErrorBoundary>
+            <ComingSoon title="Alert System" description="Smart trading alerts and notifications coming soon!" />
+          </ErrorBoundary>
+        } />
+        
+        <Route path="/portfolio" element={
+          <ErrorBoundary>
+            <ComingSoon title="Portfolio Manager" description="Advanced portfolio management coming soon!" />
+          </ErrorBoundary>
+        } />
+        
+        <Route path="/assistant" element={
+          <ErrorBoundary>
+            <ComingSoon title="Trading Assistant" description="AI-powered trading assistant coming soon!" />
+          </ErrorBoundary>
+        } />
+        
+        <Route path="/qubit" element={
+          <ErrorBoundary>
+            <ComingSoon title="Qubit Editor" description="Custom scripting engine coming soon!" />
           </ErrorBoundary>
         } />
         
