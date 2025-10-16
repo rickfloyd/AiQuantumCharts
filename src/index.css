@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* HIGH ENERGY ANIMATIONS - INLINE */
+:root {
+  --fluorescent-pink: #ff0080;
+  --electric-yellow: #ffff00;
+  --neon-green: #00ff00;
+  --pulsing-cyan: #00ffff;
+  --electric-orange: #ff8000;
+  --hot-pink: #ff69b4;
+  --deep-black: #000000;
+}
+
+@keyframes cyber-explosion {
+  0% { transform: scale(1) rotate(0deg); box-shadow: 0 0 10px #FF0080; }
+  25% { transform: scale(1.1) rotate(90deg); box-shadow: 0 0 20px #FFFF00, 0 0 30px #FF0080; }
+  50% { transform: scale(1.05) rotate(180deg); box-shadow: 0 0 30px #00FF00, 0 0 40px #00FFFF; }
+  75% { transform: scale(1.15) rotate(270deg); box-shadow: 0 0 40px #FF4500, 0 0 50px #FF00FF; }
+  100% { transform: scale(1) rotate(360deg); box-shadow: 0 0 10px #FF0080; }
+}
+
+@keyframes energy-pulse {
+  0%, 100% { transform: scale(1); filter: brightness(1) saturate(1); box-shadow: 0 0 8px #00FFFF; }
+  50% { transform: scale(1.1); filter: brightness(1.5) saturate(2); box-shadow: 0 0 20px #00FFFF, 0 0 25px #FF0080, 0 0 30px #FFFF00; }
+}
+
+@keyframes quantum-vibration {
+  0%, 100% { transform: translateX(0px) translateY(0px); }
+  25% { transform: translateX(-2px) translateY(-1px); }
+  50% { transform: translateX(2px) translateY(1px); }
+  75% { transform: translateX(-1px) translateY(-2px); }
+}
+
+.ultra-energy { animation: energy-pulse 2s infinite ease-in-out; }
+.cyber-explosion { animation: cyber-explosion 3s infinite linear; }
+.quantum-vibration { animation: quantum-vibration 0.5s infinite ease-in-out; }
+.energy-pulse { animation: energy-pulse 1.5s infinite ease-in-out; }

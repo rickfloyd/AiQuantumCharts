@@ -1,0 +1,20 @@
+// Backup of original App.tsx
+import React, { useState, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import MarketDataTabs from './components/MarketDataTabs';
+import Education from './components/Education';
+import Transparency from './components/Transparency';
+import Impact from './components/Impact';
+import AITradingUISimple from './components/AITradingUI_Simple';
+import ChatBotPanel from './components/ChatBotPanel';
+import ComingSoon from './components/ComingSoon';
+import QubitEditor from './components/QubitEditor';
+import TradingAssistant from './components/TradingAssistant';
+import TradingInterface from './components/TradingInterface';
+import IndependentChart from './components/IndependentChart';
+import ProfessionalTradingLayout from './components/ProfessionalTradingLayout';
+import QuantumCommunityHub from './components/QuantumCommunityHub';
+import CommunityWelcome from './components/CommunityWelcome';
+import UserProfile from './components/UserProfile';
+import ErrorBoundary from './components/ErrorBoundary';
