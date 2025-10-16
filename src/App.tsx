@@ -1,35 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import MarketSummary from './components/MarketSummary';
 // Removed unused imports: TradingInterface, GridDashboard, Sidebar
 import MarketDataTabs from './components/MarketDataTabs';
-import EducationalImpact from './components/EducationalImpact';
+import Education from './components/Education';
+import Transparency from './components/Transparency';
+import Impact from './components/Impact';
 import AITradingUI from './components/AITradingUI';
 import ChatBotPanel from './components/ChatBotPanel';
 import ComingSoon from './components/ComingSoon';
+import QubitEditor from './components/QubitEditor';
 
 // Enhanced Feature Summary Component
-const FeatureSummary = () => (
-  <div className="fixed bottom-4 left-4 bg-gray-900 border border-cyan-400 rounded-lg p-4 max-w-sm z-50">
-    <h3 className="text-cyan-400 font-bold mb-2">🚀 AI-Powered Trading Platform</h3>
-    <div className="text-xs text-gray-300 space-y-1">
-      <div className="flex items-center"><span className="text-green-400">✅</span> AI Price Prediction Engine</div>
-      <div className="flex items-center"><span className="text-green-400">✅</span> ML Pattern Recognition</div>
-      <div className="flex items-center"><span className="text-green-400">✅</span> Sentiment Analysis AI</div>
-      <div className="flex items-center"><span className="text-green-400">✅</span> Smart Risk Management</div>
-      <div className="flex items-center"><span className="text-green-400">✅</span> Automated Trading Signals</div>
-      <div className="flex items-center"><span className="text-green-400">✅</span> Neural Networks & LSTM</div>
-      <div className="flex items-center"><span className="text-green-400">✅</span> Advanced Drawing Tools</div>
-      <div className="flex items-center"><span className="text-green-400">✅</span> Real-Time Market Data</div>
-      <div className="flex items-center"><span className="text-green-400">✅</span> Portfolio Management</div>
-      <div className="flex items-center"><span className="text-green-400">✅</span> Custom Scripting Engine</div>
+const FeatureSummary = () => {
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(false);
+    }, 30000); // 30 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!isVisible) {
+    return null;
+  }
+
+  return (
+    <div className={`fixed bottom-4 left-4 bg-gray-900 border border-cyan-400 rounded-lg p-4 max-w-sm z-50 transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+      <h3 className="text-cyan-400 font-bold mb-2">🚀 AI-Powered Trading Platform</h3>
+      <div className="text-xs text-gray-300 space-y-1">
+        <div className="flex items-center"><span className="text-green-400">✅</span> AI Price Prediction Engine</div>
+        <div className="flex items-center"><span className="text-green-400">✅</span> ML Pattern Recognition</div>
+        <div className="flex items-center"><span className="text-green-400">✅</span> Sentiment Analysis AI</div>
+        <div className="flex items-center"><span className="text-green-400">✅</span> Smart Risk Management</div>
+        <div className="flex items-center"><span className="text-green-400">✅</span> Automated Trading Signals</div>
+        <div className="flex items-center"><span className="text-green-400">✅</span> Neural Networks & LSTM</div>
+        <div className="flex items-center"><span className="text-green-400">✅</span> Advanced Drawing Tools</div>
+        <div className="flex items-center"><span className="text-green-400">✅</span> Real-Time Market Data</div>
+        <div className="flex items-center"><span className="text-green-400">✅</span> Portfolio Management</div>
+        <div className="flex items-center"><span className="text-green-400">✅</span> Custom Scripting Engine</div>
+      </div>
+      <div className="mt-3 text-xs text-cyan-400 font-bold">
+        🤖 Revolutionary AI Trading Platform!
+      </div>
     </div>
-    <div className="mt-3 text-xs text-cyan-400 font-bold">
-      🤖 Revolutionary AI Trading Platform!
-    </div>
-  </div>
-);
+  );
+};
 
 function App() {
   const [currentSymbol] = useState('AAPL');
@@ -96,11 +115,15 @@ function App() {
           />
         } />
         
+        <Route path="/qubit" element={<QubitEditor />} />
+        
         <Route path="/" element={
           <>
-            <div className="container mx-auto px-4">
-              <EducationalImpact />
-            </div>
+              <div className="container mx-auto px-4 space-y-8">
+                <Education />
+                <Transparency />
+                <Impact />
+              </div>
             <MarketSummary />
             {/* Main Responsive Trading Grid */}
             <div className="w-full flex flex-col gap-4 py-6">
