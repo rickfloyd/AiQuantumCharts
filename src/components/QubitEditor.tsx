@@ -1,5 +1,5 @@
 // src/components/QubitEditor.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs';
 import 'prismjs/components/prism-clike';
@@ -9,10 +9,26 @@ import 'prismjs/themes/prism-tomorrow.css'; // Dark theme for editor
 import { Lexer } from '../qubit/lexer/lexer';
 import { Parser } from '../qubit/parser/parser';
 import { Interpreter } from '../qubit/interpreter/interpreter';
+import QubitAssistant from './QubitAssistant';
 
 const QubitEditor: React.FC = () => {
-  const [code, setCode] = useState('var a = 10;\nvar b = 20;\nprint a + b;');
+  const [code, setCode] = useState(
+    'fun sayHi(first, last) {\n' +
+    '  print "Hi, " + first + " " + last + "!";\n' +
+    '}\n' +
+    '\n' +
+    'sayHi("Dear", "User");'
+  );
   const [output, setOutput] = useState<string[]>([]);
+  const [isAssistantVisible, setAssistantVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAssistantVisible(true);
+    }, 1500); // Pop up after 1.5 seconds
+
+    return () => clearTimeout(timer); // Cleanup on unmount
+  }, []);
 
   const runScript = () => {
     setOutput([]); // Clear previous output
@@ -20,9 +36,9 @@ const QubitEditor: React.FC = () => {
     const tokens = lexer.scanTokens();
     
     const parser = new Parser(tokens);
-    const expression = parser.parse();
+    const statements = parser.parse();
 
-    if (expression) {
+    if (statements) {
       const interpreter = new Interpreter();
       
       // Mock 'print' function
@@ -32,7 +48,7 @@ const QubitEditor: React.FC = () => {
         oldLog(...args);
       };
 
-      interpreter.interpret(expression);
+      interpreter.interpret(statements);
 
       console.log = oldLog; // Restore original console.log
     } else {
@@ -41,7 +57,7 @@ const QubitEditor: React.FC = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-900 text-white min-h-screen">
+    <div className="relative p-6 bg-gray-900 text-white min-h-screen">
       <h1 className="text-4xl font-bold mb-4 text-cyan-400">Qubit Playground</h1>
       <p className="mb-6 text-gray-400">
         A simple scripting language for the Quantum Charts platform.
@@ -81,6 +97,8 @@ const QubitEditor: React.FC = () => {
           </pre>
         </div>
       </div>
+
+      {isAssistantVisible && <QubitAssistant onClose={() => setAssistantVisible(false)} />}
     </div>
   );
 };

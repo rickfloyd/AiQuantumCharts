@@ -11,6 +11,7 @@ import AITradingUI from './components/AITradingUI';
 import ChatBotPanel from './components/ChatBotPanel';
 import ComingSoon from './components/ComingSoon';
 import QubitEditor from './components/QubitEditor';
+import TradingAssistant from './components/TradingAssistant';
 
 // Enhanced Feature Summary Component
 const FeatureSummary = () => {
@@ -116,6 +117,7 @@ function App() {
         } />
         
         <Route path="/qubit" element={<QubitEditor />} />
+        <Route path="/assistant" element={<TradingAssistant />} />
         
         <Route path="/" element={
           <>

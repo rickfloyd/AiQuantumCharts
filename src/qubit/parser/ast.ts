@@ -4,6 +4,8 @@ import { Token } from '../lexer/token';
 export interface Visitor<R> {
   visitAssignExpr(expr: Assign): R;
   visitBinaryExpr(expr: Binary): R;
+  visitCallExpr(expr: Call): R;
+  visitLogicalExpr(expr: Logical): R;
   visitGroupingExpr(expr: Grouping): R;
   visitLiteralExpr(expr: Literal): R;
   visitUnaryExpr(expr: Unary): R;
@@ -34,6 +36,26 @@ export class Binary extends Expr {
   }
 }
 
+export class Call extends Expr {
+    constructor(public callee: Expr, public paren: Token, public args: Expr[]) {
+        super();
+    }
+
+    accept<R>(visitor: Visitor<R>): R {
+        return visitor.visitCallExpr(this);
+    }
+}
+
+export class Logical extends Expr {
+    constructor(public left: Expr, public operator: Token, public right: Expr) {
+        super();
+    }
+
+    accept<R>(visitor: Visitor<R>): R {
+        return visitor.visitLogicalExpr(this);
+    }
+}
+
 export class Grouping extends Expr {
   constructor(public expression: Expr) {
     super();
@@ -45,7 +67,7 @@ export class Grouping extends Expr {
 }
 
 export class Literal extends Expr {
-  constructor(public value: any) {
+  constructor(public value: string | number | boolean | null) {
     super();
   }
 
@@ -77,9 +99,12 @@ export class Variable extends Expr {
 export interface StmtVisitor<R> {
   visitBlockStmt(stmt: Block): R;
   visitExpressionStmt(stmt: Expression): R;
+  visitFunctionStmt(stmt: Function): R;
   visitIfStmt(stmt: If): R;
   visitPrintStmt(stmt: Print): R;
+  visitReturnStmt(stmt: Return): R;
   visitVarStmt(stmt: Var): R;
+  visitWhileStmt(stmt: While): R;
 }
 
 export abstract class Stmt {
@@ -103,6 +128,26 @@ export class Expression extends Stmt {
 
     accept<R>(visitor: StmtVisitor<R>): R {
         return visitor.visitExpressionStmt(this);
+    }
+}
+
+export class Function extends Stmt {
+    constructor(public name: Token, public params: Token[], public body: Stmt[]) {
+        super();
+    }
+
+    accept<R>(visitor: StmtVisitor<R>): R {
+        return visitor.visitFunctionStmt(this);
+    }
+}
+
+export class Return extends Stmt {
+    constructor(public keyword: Token, public value: Expr | null) {
+        super();
+    }
+
+    accept<R>(visitor: StmtVisitor<R>): R {
+        return visitor.visitReturnStmt(this);
     }
 }
 
@@ -133,5 +178,15 @@ export class Var extends Stmt {
 
     accept<R>(visitor: StmtVisitor<R>): R {
         return visitor.visitVarStmt(this);
+    }
+}
+
+export class While extends Stmt {
+    constructor(public condition: Expr, public body: Stmt) {
+        super();
+    }
+
+    accept<R>(visitor: StmtVisitor<R>): R {
+        return visitor.visitWhileStmt(this);
     }
 }
