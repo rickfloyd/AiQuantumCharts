@@ -1,7 +1,13 @@
+
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import "./components/HighEnergyAnimations.css";
 import "./index.css";
+import Header from "./components/Header";
+import MarketSummary from "./components/MarketSummary";
+import MarketDataTabs from "./components/MarketDataTabs";
+import Education from "./components/Education";
+import Transparency from "./components/Transparency";
+import Impact from "./components/Impact";
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
@@ -72,32 +78,6 @@ const Sidebar: React.FC = () => (
   </div>
 );
 
-const WelcomeHero: React.FC = () => (
-  <div className="container mx-auto px-4 mt-12">
-    <div className="bg-gradient-to-r from-purple-900 to-blue-900 p-10 rounded-lg border border-cyan-500 shadow-lg shadow-cyan-500/40">
-      <h1 className="text-5xl font-bold text-cyan-400 mb-4">Welcome to AI Quantum Charts</h1>
-      <p className="text-xl text-gray-300 mb-6">The future of trading is here. Experience AI-powered market analysis quantum algorithms and real-time insights.</p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-        <div className="bg-black/50 p-4 rounded-lg border border-green-500 text-center">
-          <div className="text-green-400 text-lg font-bold">AI Engine</div>
-          <div className="text-gray-300 text-sm">Online & Active</div>
-        </div>
-        <div className="bg-black/50 p-4 rounded-lg border border-blue-500 text-center">
-          <div className="text-blue-400 text-lg font-bold">Data Feed</div>
-          <div className="text-gray-300 text-sm">Real-time</div>
-        </div>
-        <div className="bg-black/50 p-4 rounded-lg border border-purple-500 text-center">
-          <div className="text-purple-400 text-lg font-bold">Quantum</div>
-          <div className="text-gray-300 text-sm">Processing</div>
-        </div>
-        <div className="bg-black/50 p-4 rounded-lg border border-cyan-500 text-center">
-          <div className="text-cyan-400 text-lg font-bold">Speed</div>
-          <div className="text-gray-300 text-sm">Lightning Fast</div>
-        </div>
-      </div>
-    </div>
-  </div>
-);
 
 function App() {
   return (
@@ -108,8 +88,13 @@ function App() {
           <div className="flex">
             <Sidebar />
             <main className="flex-1">
+              <Header />
+              <MarketSummary />
+              <MarketDataTabs />
+              <Education />
+              <Transparency />
+              <Impact />
               <Routes>
-                <Route path="/" element={<div><WelcomeHero /><div className="flex justify-center items-center text-gray-400 h-64 border border-dashed border-cyan-500 rounded-lg m-8"><p className="text-lg">Future Live Data & Charts will appear here</p></div></div>} />
                 <Route path="/trading" element={<div className="p-10"><h2 className="text-4xl font-bold text-fluorescent-pink mb-4">Trading Dashboard</h2><p className="text-gray-300 text-lg">Advanced trading interface coming soon.</p></div>} />
                 <Route path="/education" element={<div className="p-10"><h2 className="text-4xl font-bold text-neon-green mb-4">Education Center</h2><p className="text-gray-300 text-lg">Explore curated courses gamified learning and interactive trading lessons.</p></div>} />
                 <Route path="/community" element={<div className="p-10"><h2 className="text-4xl font-bold text-fluorescent-blue mb-4">Quantum Community Hub</h2><p className="text-gray-300 text-lg">Connect with traders share strategies and learn from innovators.</p></div>} />
