@@ -7,19 +7,24 @@ const Impact: React.FC = () => {
 
   const impactMetrics = [
     {
-      label: "Total Contributions",
-      value: `$${liveStats.totalContributions.toLocaleString()}`,
-      description: "Funds raised from premium subscriptions and donations."
+      label: "Students Helped",
+      value: liveStats.studentsHelped.toLocaleString(),
+      description: "Number of students helped by our programs."
     },
     {
-      label: "Students Enrolled",
-      value: liveStats.studentsEnrolled.toLocaleString(),
-      description: "Number of students in our free and sponsored programs."
+      label: "Courses Created",
+      value: liveStats.coursesCreated.toLocaleString(),
+      description: "Total free and sponsored trading courses created."
     },
     {
-      label: "Active Projects",
-      value: liveStats.projectsFunded,
-      description: "Educational and open-source projects currently funded."
+      label: "Scholarships Awarded",
+      value: liveStats.scholarshipsAwarded.toLocaleString(),
+      description: "Scholarships awarded to students for financial education."
+    },
+    {
+      label: "Free Tools Released",
+      value: liveStats.freeToolsReleased.toLocaleString(),
+      description: "Open source trading tools released for the community."
     }
   ];
 
