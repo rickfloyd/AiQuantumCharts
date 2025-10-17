@@ -1,221 +1,143 @@
-import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
-import MarketSummary from './components/MarketSummary';
-// Removed unused imports: TradingInterface, GridDashboard, Sidebar
-import MarketDataTabs from './components/MarketDataTabs';
-import Education from './components/Education';
-import Transparency from './components/Transparency';
-import Impact from './components/Impact';
-import AITradingUI from './components/AITradingUI';
-import ChatBotPanel from './components/ChatBotPanel';
-import ComingSoon from './components/ComingSoon';
-import QubitEditor from './components/QubitEditor';
-import TradingAssistant from './components/TradingAssistant';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "./components/HighEnergyAnimations.css";
+import "./index.css";
 
-// Enhanced Feature Summary Component
-const FeatureSummary = () => {
-  const [isVisible, setIsVisible] = useState(true);
+interface ErrorBoundaryProps {
+  children: React.ReactNode;
+}
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(false);
-    }, 30000); // 30 seconds
+interface ErrorBoundaryState {
+  hasError: boolean;
+}
 
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (!isVisible) {
-    return null;
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false };
   }
 
-  return (
-    <div className={`fixed bottom-4 left-4 bg-gray-900 border border-cyan-400 rounded-lg p-4 max-w-sm z-50 transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-      <h3 className="text-cyan-400 font-bold mb-2">🚀 AI-Powered Trading Platform</h3>
-      <div className="text-xs text-gray-300 space-y-1">
-        <div className="flex items-center"><span className="text-green-400">✅</span> AI Price Prediction Engine</div>
-        <div className="flex items-center"><span className="text-green-400">✅</span> ML Pattern Recognition</div>
-        <div className="flex items-center"><span className="text-green-400">✅</span> Sentiment Analysis AI</div>
-        <div className="flex items-center"><span className="text-green-400">✅</span> Smart Risk Management</div>
-        <div className="flex items-center"><span className="text-green-400">✅</span> Automated Trading Signals</div>
-        <div className="flex items-center"><span className="text-green-400">✅</span> Neural Networks & LSTM</div>
-        <div className="flex items-center"><span className="text-green-400">✅</span> Advanced Drawing Tools</div>
-        <div className="flex items-center"><span className="text-green-400">✅</span> Real-Time Market Data</div>
-        <div className="flex items-center"><span className="text-green-400">✅</span> Portfolio Management</div>
-        <div className="flex items-center"><span className="text-green-400">✅</span> Custom Scripting Engine</div>
-      </div>
-      <div className="mt-3 text-xs text-cyan-400 font-bold">
-        🤖 Revolutionary AI Trading Platform!
+  static getDerivedStateFromError(): ErrorBoundaryState {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, info: React.ErrorInfo) {
+    console.error("ErrorBoundary caught:", error, info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="bg-deep-black min-h-screen flex flex-col items-center justify-center text-fluorescent-pink text-center p-10">
+          <h1 className="text-5xl font-bold animate-bounce-glow">Something went wrong</h1>
+          <p className="mt-4 text-xl text-pulsing-cyan">The platform hit a glitch try refreshing or check the console.</p>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+const PlatformStatus: React.FC = () => (
+  <div className="fixed top-4 right-4 bg-gray-900 border border-neon-green rounded-lg p-3 text-sm z-50 shadow-neon-green">
+    <div className="flex items-center space-x-2">
+      <div className="w-2 h-2 bg-neon-green rounded-full animate-pulse"></div>
+      <span className="text-neon-green font-bold">Platform Status: Online</span>
+    </div>
+    <div className="text-gray-300 text-xs mt-1">
+      AI Models: Active | Market Data: Live | APIs: Connected
+    </div>
+  </div>
+);
+
+const Sidebar: React.FC = () => (
+  <div className="w-80 bg-deep-black border-r border-pulsing-cyan p-6 min-h-screen">
+    <h3 className="text-fluorescent-pink font-bold text-lg mb-6 animate-cyber-pulse">AI Trading Platform</h3>
+    <ul className="space-y-3 text-sm">
+      <li className="flex items-center text-pulsing-cyan"><div className="w-3 h-3 bg-neon-green rounded-full mr-3"></div>AI Price Prediction Engine</li>
+      <li className="flex items-center text-pulsing-cyan"><div className="w-3 h-3 bg-neon-green rounded-full mr-3"></div>ML Pattern Recognition</li>
+      <li className="flex items-center text-pulsing-cyan"><div className="w-3 h-3 bg-neon-green rounded-full mr-3"></div>Sentiment Analysis AI</li>
+      <li className="flex items-center text-pulsing-cyan"><div className="w-3 h-3 bg-neon-green rounded-full mr-3"></div>Smart Risk Management</li>
+      <li className="flex items-center text-pulsing-cyan"><div className="w-3 h-3 bg-neon-green rounded-full mr-3"></div>Automated Trading Signals</li>
+      <li className="flex items-center text-pulsing-cyan"><div className="w-3 h-3 bg-neon-green rounded-full mr-3"></div>Neural Networks & LSTM</li>
+      <li className="flex items-center text-pulsing-cyan"><div className="w-3 h-3 bg-neon-green rounded-full mr-3"></div>Advanced Drawing Tools</li>
+      <li className="flex items-center text-pulsing-cyan"><div className="w-3 h-3 bg-neon-green rounded-full mr-3"></div>Real-Time Market Data</li>
+      <li className="flex items-center text-pulsing-cyan"><div className="w-3 h-3 bg-neon-green rounded-full mr-3"></div>Portfolio Management</li>
+      <li className="flex items-center text-pulsing-cyan"><div className="w-3 h-3 bg-neon-green rounded-full mr-3"></div>Custom Scripting Engine</li>
+    </ul>
+    <div className="mt-8 p-4 bg-fluorescent-blue/10 border border-fluorescent-blue rounded-lg">
+      <p className="text-fluorescent-blue font-bold text-sm mb-2 animate-cyber-pulse">Revolutionary AI Trading Platform!</p>
+      <p className="text-xs text-pulsing-cyan">Empowering traders with quantum-level insights and automation.</p>
+    </div>
+  </div>
+);
+
+const WelcomeHero: React.FC = () => (
+  <div className="container mx-auto px-4 mt-12">
+    <div className="bg-gradient-to-r from-purple-900 to-blue-900 p-10 rounded-lg border border-cyan-500 shadow-lg shadow-cyan-500/40">
+      <h1 className="text-5xl font-bold text-cyan-400 mb-4">Welcome to AI Quantum Charts</h1>
+      <p className="text-xl text-gray-300 mb-6">The future of trading is here. Experience AI-powered market analysis quantum algorithms and real-time insights.</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="bg-black/50 p-4 rounded-lg border border-green-500 text-center">
+          <div className="text-green-400 text-lg font-bold">AI Engine</div>
+          <div className="text-gray-300 text-sm">Online & Active</div>
+        </div>
+        <div className="bg-black/50 p-4 rounded-lg border border-blue-500 text-center">
+          <div className="text-blue-400 text-lg font-bold">Data Feed</div>
+          <div className="text-gray-300 text-sm">Real-time</div>
+        </div>
+        <div className="bg-black/50 p-4 rounded-lg border border-purple-500 text-center">
+          <div className="text-purple-400 text-lg font-bold">Quantum</div>
+          <div className="text-gray-300 text-sm">Processing</div>
+        </div>
+        <div className="bg-black/50 p-4 rounded-lg border border-cyan-500 text-center">
+          <div className="text-cyan-400 text-lg font-bold">Speed</div>
+          <div className="text-gray-300 text-sm">Lightning Fast</div>
+        </div>
       </div>
     </div>
-  );
-};
+  </div>
+);
 
 function App() {
-  const [currentSymbol] = useState('AAPL');
-
   return (
-    <div className="min-h-screen bg-charcoal-gradient text-fluorescent-pink">
-      <Header />
-      
-      <Routes>
-        <Route path="/test" element={<div className="text-white">Router OK</div>} />
-        
-        {/* Investor Portal Routes */}
-        <Route path="/investor/portfolio" element={
-          <ComingSoon 
-            title="PORTFOLIO ANALYTICS" 
-            description="Advanced portfolio tracking with real-time P&L, risk metrics, and performance attribution."
-            icon="📊"
-            features={["Real-time Portfolio Tracking", "P&L Analytics", "Risk Metrics", "Performance Attribution", "Asset Allocation", "Rebalancing Tools"]}
-          />
-        } />
-        
-        <Route path="/investor/research" element={
-          <ComingSoon 
-            title="RESEARCH HUB" 
-            description="Institutional-grade research, analyst reports, and market intelligence tools."
-            icon="🔍"
-            features={["Analyst Reports", "Market Intelligence", "Company Research", "Sector Analysis", "Economic Indicators", "News Sentiment"]}
-          />
-        } />
-        
-        <Route path="/investor/reports" element={
-          <ComingSoon 
-            title="CUSTOM REPORTS" 
-            description="Generate professional reports for clients, stakeholders, and regulatory compliance."
-            icon="📋"
-            features={["Client Reports", "Performance Reports", "Risk Reports", "Compliance Reports", "Custom Templates", "Automated Generation"]}
-          />
-        } />
-        
-        <Route path="/investor/risk" element={
-          <ComingSoon 
-            title="RISK MANAGEMENT" 
-            description="Advanced risk analytics with VaR, stress testing, and correlation analysis."
-            icon="📈"
-            features={["Value at Risk (VaR)", "Stress Testing", "Correlation Analysis", "Exposure Limits", "Risk Monitoring", "Scenario Analysis"]}
-          />
-        } />
-        
-        <Route path="/investor/insights" element={
-          <ComingSoon 
-            title="AI INSIGHTS" 
-            description="Machine learning powered investment insights and automated strategy recommendations."
-            icon="🤖"
-            features={["ML Predictions", "Strategy Recommendations", "Pattern Recognition", "Sentiment Analysis", "Market Signals", "Automated Alerts"]}
-          />
-        } />
-        
-        <Route path="/investor/global" element={
-          <ComingSoon 
-            title="GLOBAL MARKETS" 
-            description="Multi-asset class trading across global markets with unified position management."
-            icon="🌐"
-            features={["Multi-Asset Trading", "Global Markets", "Position Management", "Currency Conversion", "Market Hours", "Cross-Border Compliance"]}
-          />
-        } />
-        
-        <Route path="/qubit" element={<QubitEditor />} />
-        <Route path="/assistant" element={<TradingAssistant />} />
-        
-        <Route path="/" element={
-          <>
-              <div className="container mx-auto px-4 space-y-8">
-                <Education />
-                <Transparency />
-                <Impact />
-              </div>
-            <MarketSummary />
-            {/* Main Responsive Trading Grid */}
-            <div className="w-full flex flex-col gap-4 py-6">
-              <div className="flex flex-1 min-h-[60vh] w-full gap-4">
-                {/* Left: AI Insights */}
-                <aside className="hidden md:flex flex-col w-64 bg-gray-900/80 rounded-lg p-4 border-2 border-pink-500 shadow-lg animate-pulse">
-                  <h2 className="text-xl font-bold text-pink-400 mb-2">🤖 AI Insights</h2>
-                  <ul className="text-sm space-y-2">
-                    <li>• <span className="text-pink-300">AI Trade Signals</span></li>
-                    <li>• <span className="text-pink-300">Pattern Recognition</span></li>
-                    <li>• <span className="text-pink-300">Sentiment Analysis</span></li>
-                    <li>• <span className="text-pink-300">Risk Alerts</span></li>
-                    <li>• <span className="text-pink-300">News & Events</span></li>
-                  </ul>
-                  <div className="mt-4 text-xs text-pink-200">(Live AI widgets coming soon)</div>
-                  <div className="mt-4">
-                    <ChatBotPanel symbol={currentSymbol} />
-                  </div>
-                </aside>
-                {/* Center: Main Chart */}
-                <section className="flex-1 flex flex-col items-center justify-center min-w-0">
-                  <div className="w-full h-[48vh] md:h-[60vh] bg-gray-950 rounded-lg border-2 border-cyan-400 shadow-xl flex items-center justify-center">
-                    {/* EnhancedChart is your main trading chart */}
-                    {/* TODO: Replace with <EnhancedChart /> if not already imported */}
-                    <AITradingUI symbol={currentSymbol} />
-                  </div>
-                  {/* Chart controls */}
-                  <div className="flex gap-2 mt-4 justify-center">
-                    <button className="px-3 py-1 rounded bg-cyan-700 text-white hover:bg-cyan-500">1m</button>
-                    <button className="px-3 py-1 rounded bg-cyan-700 text-white hover:bg-cyan-500">5m</button>
-                    <button className="px-3 py-1 rounded bg-cyan-700 text-white hover:bg-cyan-500">1h</button>
-                    <button className="px-3 py-1 rounded bg-cyan-700 text-white hover:bg-cyan-500">4h</button>
-                    <button className="px-3 py-1 rounded bg-cyan-700 text-white hover:bg-cyan-500">1D</button>
-                    <button className="px-3 py-1 rounded bg-pink-600 text-white hover:bg-pink-400">Candles</button>
-                    <button className="px-3 py-1 rounded bg-pink-600 text-white hover:bg-pink-400">Line</button>
-                    <button className="px-3 py-1 rounded bg-pink-600 text-white hover:bg-pink-400">Bar</button>
-                    <button className="px-3 py-1 rounded bg-purple-700 text-white hover:bg-purple-500">Indicators</button>
-                    <button className="px-3 py-1 rounded bg-yellow-600 text-white hover:bg-yellow-400">Draw</button>
-                  </div>
-                </section>
-                {/* Right: Order Entry */}
-                <aside className="hidden md:flex flex-col w-72 bg-gray-900/80 rounded-lg p-4 border-2 border-cyan-400 shadow-lg animate-pulse">
-                  <h2 className="text-xl font-bold text-cyan-300 mb-2">📝 Order Entry</h2>
-                  <form className="flex flex-col gap-2">
-                    <label htmlFor="orderType" className="sr-only">Order Type</label>
-                    <select id="orderType" className="bg-gray-800 border border-cyan-500 rounded px-2 py-1 text-white" aria-label="Order Type">
-                      <option>Market</option>
-                      <option>Limit</option>
-                      <option>Stop</option>
-                    </select>
-                    <input type="number" placeholder="Amount" className="bg-gray-800 border border-cyan-500 rounded px-2 py-1 text-white" />
-                    <input type="number" placeholder="Price (if limit)" className="bg-gray-800 border border-cyan-500 rounded px-2 py-1 text-white" />
-                    <div className="flex gap-2 mt-2">
-                      <button className="flex-1 bg-green-600 hover:bg-green-500 text-white rounded py-1">Buy</button>
-                      <button className="flex-1 bg-red-600 hover:bg-red-500 text-white rounded py-1">Sell</button>
-                    </div>
-                  </form>
-                  <div className="mt-4 text-xs text-cyan-200">(Order panel: connect to backend for live trading)</div>
-                </aside>
-              </div>
-              {/* Bottom: Portfolio & Performance */}
-              <div className="w-full mt-4 bg-gray-900/80 rounded-lg p-4 border-2 border-purple-500 shadow-lg flex flex-col md:flex-row gap-4 animate-pulse">
-                <div className="flex-1">
-                  <h2 className="text-lg font-bold text-purple-300 mb-2">💼 Portfolio</h2>
-                  <div className="text-sm text-purple-200">(Holdings, P&L, risk metrics, trade history coming soon)</div>
-                </div>
-                <div className="flex-1">
-                  <h2 className="text-lg font-bold text-purple-300 mb-2">📊 Performance</h2>
-                  <div className="text-sm text-purple-200">(Charts, analytics, and performance stats coming soon)</div>
-                </div>
-              </div>
+    <Router>
+      <div className="App bg-deep-black min-h-screen text-white">
+        <ErrorBoundary>
+          <PlatformStatus />
+          <div className="flex">
+            <Sidebar />
+            <main className="flex-1">
+              <Routes>
+                <Route path="/" element={<div><WelcomeHero /><div className="flex justify-center items-center text-gray-400 h-64 border border-dashed border-cyan-500 rounded-lg m-8"><p className="text-lg">Future Live Data & Charts will appear here</p></div></div>} />
+                <Route path="/trading" element={<div className="p-10"><h2 className="text-4xl font-bold text-fluorescent-pink mb-4">Trading Dashboard</h2><p className="text-gray-300 text-lg">Advanced trading interface coming soon.</p></div>} />
+                <Route path="/education" element={<div className="p-10"><h2 className="text-4xl font-bold text-neon-green mb-4">Education Center</h2><p className="text-gray-300 text-lg">Explore curated courses gamified learning and interactive trading lessons.</p></div>} />
+                <Route path="/community" element={<div className="p-10"><h2 className="text-4xl font-bold text-fluorescent-blue mb-4">Quantum Community Hub</h2><p className="text-gray-300 text-lg">Connect with traders share strategies and learn from innovators.</p></div>} />
+                <Route path="/portfolio" element={<div className="p-10"><h2 className="text-4xl font-bold text-electric-yellow mb-4">Portfolio Manager</h2><p className="text-gray-300 text-lg">Manage your trades track performance and optimize your strategy.</p></div>} />
+                <Route path="/options" element={<div className="p-10"><h2 className="text-4xl font-bold text-bright-magenta mb-4">Options Trading Tools</h2><p className="text-gray-300 text-lg">Cutting-edge analytics and tools for professional options traders.</p></div>} />
+                <Route path="/commodities" element={<div className="p-10"><h2 className="text-4xl font-bold text-neon-orange mb-4">Commodities Dashboard</h2><p className="text-gray-300 text-lg">Gold oil and global commodity analytics with real-time market insight.</p></div>} />
+                <Route path="/news" element={<div className="p-10"><h2 className="text-4xl font-bold text-pulsing-cyan mb-4">Market News & Analysis</h2><p className="text-gray-300 text-lg">Real-time financial news sentiment breakdown and AI-powered insights.</p></div>} />
+                <Route path="/sports" element={<div className="p-10"><h2 className="text-4xl font-bold text-electric-purple mb-4">Sports Analytics</h2><p className="text-gray-300 text-lg">Real-time performance analytics and predictive modeling for global sports.</p></div>} />
+                <Route path="/sports-betting" element={<div className="p-10"><h2 className="text-4xl font-bold text-hot-pink mb-4">Sports Betting AI</h2><p className="text-gray-300 text-lg">AI-powered betting insights probability modeling and real-time odds.</p></div>} />
+                <Route path="/calendar" element={<div className="p-10"><h2 className="text-4xl font-bold text-laser-red mb-4">Economic Calendar</h2><p className="text-gray-300 text-lg">Stay ahead of key economic events earnings and macro data that move the markets.</p></div>} />
+                <Route path="/alerts" element={<div className="p-10"><h2 className="text-4xl font-bold text-volt-green mb-4">Smart Alerts</h2><p className="text-gray-300 text-lg">Real-time price volume and sentiment alerts tailored to your strategy.</p></div>} />
+                <Route path="/assistant" element={<div className="p-10"><h2 className="text-4xl font-bold text-neon-purple mb-4">AI Trading Assistant</h2><p className="text-gray-300 text-lg">Your personal AI co-pilot for trade execution analysis and strategy building.</p></div>} />
+                <Route path="/qubit" element={<div className="p-10"><h2 className="text-4xl font-bold text-fluorescent-pink mb-4">Qubit Script Editor</h2><p className="text-gray-300 text-lg">Build customize and deploy trading scripts using next-gen quantum logic.</p></div>} />
+                <Route path="/transparency" element={<div className="p-10"><h2 className="text-4xl font-bold text-electric-yellow mb-4">Transparency Portal</h2><p className="text-gray-300 text-lg">See exactly how every dollar is allocated.</p></div>} />
+                <Route path="/impact" element={<div className="p-10"><h2 className="text-4xl font-bold text-neon-green mb-4">Social Impact</h2><p className="text-gray-300 text-lg">Empowering underserved communities and creating pathways into financial literacy.</p></div>} />
+                <Route path="*" element={<div className="h-screen flex flex-col items-center justify-center bg-deep-black text-center"><h1 className="text-6xl text-laser-red font-bold mb-4">404</h1><p className="text-gray-300 text-xl mb-6">Page not found but the future is still here</p><a href="/" className="px-6 py-3 bg-fluorescent-pink text-black font-bold rounded-lg hover:scale-105 transition-transform">Return to Dashboard</a></div>} />
+              </Routes>
+            </main>
+          </div>
+          <footer className="bg-charcoal border-t border-pulsing-cyan text-center py-4 text-gray-400 text-sm">
+            <div className="space-y-1">
+              <p>AI Quantum Charts v2.0 Rebuilt from the ground up for speed and power</p>
+              <p>Built with love to empower traders creators and innovators worldwide</p>
             </div>
-            <MarketDataTabs />
-          </>
-        } />
-      </Routes>
-      
-      {/* Feature Summary */}
-      <FeatureSummary />
-      
-      {/* Footer */}
-      <footer className="bg-charcoal-gradient border-t-4 border-electric-purple shadow-neon-blue p-6 text-center">
-        <div className="text-fluorescent-pink text-sm font-bold drop-shadow-lg">
-          © 2024 AI QUANTUM CHARTS. Advanced AI Trading Platform Powered by Quantum Algorithms.
-        </div>
-        <div className="text-pulsing-cyan text-xs mt-2 font-semibold">
-          Real-time Market Data • Fluorescent Analytics • Quantum Intelligence
-        </div>
-      </footer>
-    </div>
+          </footer>
+        </ErrorBoundary>
+      </div>
+    </Router>
   );
 }
 
