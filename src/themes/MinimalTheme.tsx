@@ -28,6 +28,17 @@ const MinimalTheme: React.FC = () => {
         </nav>
       </header>
       
+      {/* Simple View Banner */}
+      <div className="bg-transparent">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="py-4 text-center">
+            <h2 className="text-2xl md:text-3xl font-extrabold tracking-wider bg-gradient-to-r from-pink-400 via-pink-500 to-orange-400 bg-clip-text text-transparent drop-shadow-[0_0_12px_rgba(255,105,180,0.35)]">
+              SIMPLE VIEW
+            </h2>
+          </div>
+        </div>
+      </div>
+
       {/* Market Type Tabs */}
       <div className="border-b border-pink-900/30">
         <div className="max-w-6xl mx-auto px-4">
