@@ -98,13 +98,16 @@ function App() {
       <div className="App min-h-screen">
         <ErrorBoundary>
           <PlatformStatus />
-          <button
-            onClick={handleToggle}
-            className="fixed top-4 left-4 z-50 px-4 py-2 rounded-lg font-bold text-xs bg-gray-900 text-pink-400 border border-pink-500 shadow-neon-pink hover:bg-pink-900 hover:text-white transition-all"
-            aria-label="Toggle site theme"
-          >
-            {theme === 'neon' ? 'Switch to Minimal Theme' : 'Switch to Neon Theme'}
-          </button>
+          {/* Move theme toggle button into MinimalTheme header when minimal theme is active */}
+          {theme === 'minimal' ? null : (
+            <button
+              onClick={handleToggle}
+              className="fixed top-4 left-4 z-50 px-4 py-2 rounded-lg font-bold text-xs bg-gray-900 text-pink-400 border border-pink-500 shadow-neon-pink hover:bg-pink-900 hover:text-white transition-all"
+              aria-label="Toggle site theme"
+            >
+              {theme === 'neon' ? 'Switch to Minimal Theme' : 'Switch to Neon Theme'}
+            </button>
+          )}
           {/* Route to directly access Simple View */}
           <Routes>
             <Route path="/simple" element={<MinimalTheme />} />
