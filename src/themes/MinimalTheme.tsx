@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import SimpleTabs from "../components/SimpleTabs";
+import LogoCandles from "../components/LogoCandles";
 
 const MinimalTheme: React.FC = () => {
   const [activeTab, setActiveTab] = useState("forex");
@@ -17,7 +18,7 @@ const MinimalTheme: React.FC = () => {
     <div className="bg-gradient-to-b from-black via-gray-950 to-black min-h-screen text-gray-100">
       <header className="flex flex-col items-start px-6 py-4 border-b border-pink-900/30">
         <div className="flex items-center space-x-3">
-          <img src="/pink.png" alt="Quantum Charts Logo" className="w-10 h-10" />
+          <LogoCandles />
           <span className="text-xl font-bold bg-gradient-to-r from-pink-500 to-blue-500 bg-clip-text text-transparent">
             AI QUANTUM CHARTS
           </span>

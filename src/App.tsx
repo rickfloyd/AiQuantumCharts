@@ -9,6 +9,7 @@ import MarketDataTabs from "./components/MarketDataTabs";
 import Education from "./components/Education";
 import Transparency from "./components/Transparency";
 import Impact from "./components/Impact";
+import LogoCandles from "./components/LogoCandles";
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
@@ -59,6 +60,9 @@ const PlatformStatus: React.FC = () => (
 
 const Sidebar: React.FC = () => (
   <div className="w-80 bg-deep-black border-r border-pulsing-cyan p-6 min-h-screen">
+    <div className="mb-2 flex items-center justify-start">
+      <LogoCandles />
+    </div>
     <h3 className="text-fluorescent-pink font-bold text-lg mb-6 animate-cyber-pulse">AI Trading Platform</h3>
     <ul className="space-y-3 text-sm">
       <li className="flex items-center text-pulsing-cyan"><div className="w-3 h-3 bg-neon-green rounded-full mr-3"></div>AI Price Prediction Engine</li>
