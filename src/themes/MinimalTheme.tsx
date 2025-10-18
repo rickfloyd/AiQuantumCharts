@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import SimpleTabs from "../components/SimpleTabs";
 
 // Minimal, dark, accessible theme version of homepage
 const MinimalTheme: React.FC = () => {
@@ -18,7 +19,7 @@ const MinimalTheme: React.FC = () => {
       <header className="flex items-center justify-between px-6 py-4 border-b border-pink-900/30">
         <div className="flex items-center space-x-3">
           <img src="/pink.png" alt="Quantum Charts Logo" className="w-10 h-10" />
-          <span className="text-xl font-bold bg-gradient-to-r from-pink-500 to-blue-500 bg-clip-text text-transparent">Quantum Charts</span>
+          <span className="text-xl font-bold bg-gradient-to-r from-pink-500 to-blue-500 bg-clip-text text-transparent">AI QUANTUM CHARTS</span>
         </div>
         <nav className="flex items-center space-x-6 text-base">
           <a href="#exchange" className="text-pink-400 hover:text-pink-300">Exchange</a>
@@ -33,7 +34,7 @@ const MinimalTheme: React.FC = () => {
         <div className="max-w-6xl mx-auto px-4">
           <div className="py-4 text-center">
             <h2 className="text-2xl md:text-3xl font-extrabold tracking-wider bg-gradient-to-r from-pink-400 via-pink-500 to-orange-400 bg-clip-text text-transparent drop-shadow-[0_0_12px_rgba(255,105,180,0.35)]">
-              SIMPLE VIEW
+              SIMPLE VIEW • AI QUANTUM CHARTS
             </h2>
           </div>
         </div>
@@ -64,6 +65,8 @@ const MinimalTheme: React.FC = () => {
         <h1 className="text-3xl font-bold mb-6 bg-gradient-to-r from-pink-500 to-blue-500 bg-clip-text text-transparent">
           {tabs.find(t => t.id === activeTab)?.label} Market Summary
         </h1>
+        {/* Categories / Sections */}
+        <SimpleTabs />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div className="bg-gradient-to-br from-pink-950/50 to-blue-950/50 rounded-lg p-6 border border-pink-900/30">
           <div className="flex items-center mb-2">
