@@ -105,6 +105,11 @@ function App() {
           >
             {theme === 'neon' ? 'Switch to Minimal Theme' : 'Switch to Neon Theme'}
           </button>
+          {/* Route to directly access Simple View */}
+          <Routes>
+            <Route path="/simple" element={<MinimalTheme />} />
+          </Routes>
+
           {theme === 'minimal' ? (
             <MinimalTheme />
           ) : (
@@ -119,7 +124,8 @@ function App() {
                   <Transparency />
                   <Impact />
                   <Routes>
-                    {/* ...existing routes... */}
+                    {/* other routes can be defined here */}
+                    <Route path="/" element={<div />} />
                   </Routes>
                 </div>
               </main>
