@@ -1,0 +1,21 @@
+openapi: 3.0.0
+info:
+  title: AI Quantum Charts API
+  version: 1.0.0
+  description: API documentation for AI Quantum Charts
+servers:
+  - url: http://localhost:5050/api/v1
+paths:
+  /hello:
+    get:
+      summary: Example hello endpoint
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
