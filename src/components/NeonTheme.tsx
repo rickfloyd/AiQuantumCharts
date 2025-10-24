@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Heart, TrendingUp, TrendingDown, Eye, RefreshCw, BarChart3, Activity, Settings, Maximize2, Square } from 'lucide-react';
 
 const NeonTheme: React.FC = () => {
-  const [marketsOpen, setMarketsOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState('');
   const [selectedTab, setSelectedTab] = useState('Stocks');
 
   return (
@@ -32,34 +32,30 @@ const NeonTheme: React.FC = () => {
               </div>
 
               <nav className="flex items-center space-x-6 text-sm">
-                <a href="#personalities" className="text-pink-400 hover:text-pink-300 transition">Personalities</a>
+                <div className="relative">
+                  <button
+                    onClick={() => setOpenDropdown(openDropdown === 'personalities' ? '' : 'personalities')}
+                    className="text-pink-400 hover:text-pink-300 transition font-semibold"
+                  >
+                    Personalities
+                  </button>
+                  {openDropdown === 'personalities' && (
+                    <div className="absolute top-full mt-2 left-0 bg-gray-900 border border-pink-500 rounded-lg shadow-2xl shadow-pink-500/30 min-w-[180px] z-50">
+                      <a href="#personality1" className="block px-4 py-2 text-pink-400 hover:bg-pink-500/10 transition">Personality 1</a>
+                      <a href="#personality2" className="block px-4 py-2 text-pink-400 hover:bg-pink-500/10 transition">Personality 2</a>
+                      <a href="#personality3" className="block px-4 py-2 text-pink-400 hover:bg-pink-500/10 transition">Personality 3</a>
+                    </div>
+                  )}
+                </div>
+                <a href="#ideas" className="text-pink-400 hover:text-pink-300 transition font-semibold">Ideas</a>
                 <a href="#impact" className="flex items-center space-x-1 text-green-400 hover:text-green-300 transition">
                   <Heart className="w-4 h-4" />
                   <span>Impact</span>
                 </a>
-                <a href="#sports-betting" className="text-cyan-400 hover:text-cyan-300 transition">Sports Betting</a>
-                <a href="#sports" className="text-orange-500 hover:text-orange-400 transition">Sports</a>
-                <a href="#world-sports" className="text-cyan-400 hover:text-cyan-300 transition">World Sports</a>
-                <a href="#products" className="text-orange-500 hover:text-orange-400 transition">Products</a>
-
-                <div className="relative">
-                  <button
-                    onClick={() => setMarketsOpen(!marketsOpen)}
-                    className="text-cyan-400 hover:text-cyan-300 transition"
-                  >
-                    Markets
-                  </button>
-                  {marketsOpen && (
-                    <div className="absolute top-full mt-2 right-0 bg-gray-900 border border-cyan-500 rounded-lg shadow-2xl shadow-cyan-500/50 min-w-[200px] z-50">
-                      <a href="#options" className="block px-4 py-2 text-pink-400 hover:bg-cyan-500/10 transition">Options Trading</a>
-                      <a href="#forex" className="block px-4 py-2 text-yellow-400 hover:bg-cyan-500/10 transition">Forex Analysis</a>
-                      <a href="#commodity" className="block px-4 py-2 text-pink-400 hover:bg-cyan-500/10 transition">Commodity Markets</a>
-                      <a href="#calendar" className="block px-4 py-2 text-pink-400 hover:bg-cyan-500/10 transition">Economic Calendar</a>
-                      <a href="#news" className="block px-4 py-2 text-pink-400 hover:bg-cyan-500/10 transition">News & Analysis</a>
-                    </div>
-                  )}
-                </div>
-
+                <a href="#markets" className="text-cyan-400 hover:text-cyan-300 transition font-semibold">Markets</a>
+                <a href="#screener" className="text-orange-500 hover:text-orange-400 transition font-semibold">Screener</a>
+                <a href="#news" className="text-cyan-400 hover:text-cyan-300 transition font-semibold">News</a>
+                <a href="#community" className="text-orange-500 hover:text-orange-400 transition font-semibold">Community</a>
                 <a href="#more" className="text-cyan-400 hover:text-cyan-300 transition">More</a>
               </nav>
             </div>
@@ -80,43 +76,7 @@ const NeonTheme: React.FC = () => {
       <div className="border-b border-pink-500 bg-gradient-to-r from-pink-500/20 via-transparent to-pink-500/20"></div>
 
       <div className="max-w-[1400px] mx-auto px-6 py-6">
-        <div className="bg-gradient-to-r from-blue-900/30 to-cyan-900/30 border border-cyan-500/50 rounded-xl p-6 mb-6 shadow-2xl shadow-cyan-500/20">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-3 h-3 rounded-full bg-cyan-400 animate-pulse shadow-lg shadow-cyan-400/50"></div>
-              <h2 className="text-xl font-bold text-cyan-400">Educational Impact Transparency</h2>
-              <span className="px-3 py-1 bg-green-500/20 border border-green-500 rounded-full text-green-400 text-xs font-semibold">
-                100% Transparent
-              </span>
-            </div>
-            <div className="text-right">
-              <div className="text-cyan-400 text-sm mb-2">Where Your Payment Goes ▼</div>
-            </div>
-          </div>
-
-          <div className="mt-4 text-center text-cyan-300 text-sm">
-            90% of every payment directly funds educational programs for future traders
-          </div>
-
-          <div className="grid grid-cols-4 gap-6 mt-6">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-cyan-400">12,911</div>
-              <div className="text-cyan-600 text-sm">Students Helped</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-cyan-400">156</div>
-              <div className="text-cyan-600 text-sm">Free Courses</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-400">348</div>
-              <div className="text-cyan-600 text-sm">Countries</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-cyan-400">28</div>
-              <div className="text-cyan-600 text-sm">Free Tools</div>
-            </div>
-          </div>
-        </div>
+        <div className="bg-gradient-to-r from-blue-900/30 to-cyan-900/30 border border-cyan-500/50 rounded-xl p-6 mb-6 shadow-2xl shadow-cyan-500/20"></div>
 
         <div className="border-b border-cyan-500/30 mb-6"></div>
 

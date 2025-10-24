@@ -87,55 +87,21 @@ const MinimalTheme: React.FC = () => {
 
         <SimpleTabs />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div className="bg-gradient-to-br from-pink-950/50 to-blue-950/50 rounded-lg p-6 border border-pink-900/30">
-            <div className="flex items-center mb-2">
-              <span className="bg-gradient-to-r from-pink-600 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-bold mr-2">
-                BTC
-              </span>
-              <span className="font-semibold text-pink-300">BTC/USDT</span>
-            </div>
-            <div className="text-2xl font-bold mb-1">37,058.22</div>
-            <div className="text-sm text-blue-400">+1.8%</div>
-          </div>
-          <div className="bg-gradient-to-br from-blue-950/50 to-pink-950/50 rounded-lg p-6 border border-blue-900/30">
-            <div className="flex items-center mb-2">
-              <span className="bg-gradient-to-r from-blue-600 to-blue-500 text-white px-3 py-1 rounded-full text-xs font-bold mr-2">
-                ETH
-              </span>
-              <span className="font-semibold text-blue-300">ETH/USDT</span>
-            </div>
-            <div className="text-2xl font-bold mb-1">2,564.81</div>
-            <div className="text-sm text-pink-400">+7.3%</div>
-          </div>
+        {/* Section for each market type, styled cleanly, no yellow boxes */}
+        <div className="space-y-8">
+          {tabs.map((tab) => (
+            activeTab === tab.id && (
+              <section key={tab.id} className="bg-gradient-to-br from-gray-900/60 to-gray-950/80 rounded-xl p-8 border border-pink-900/30 shadow-lg">
+                <h2 className="text-2xl font-bold mb-4 bg-gradient-to-r from-pink-400 to-blue-400 bg-clip-text text-transparent uppercase tracking-wider">
+                  {tab.label} Market Board
+                </h2>
+                <div className="h-32 flex items-center justify-center text-gray-500 italic opacity-70">
+                  {`[${tab.label} market data and charts coming soon]`}
+                </div>
+              </section>
+            )
+          ))}
         </div>
-
-        <div className="bg-gradient-to-br from-pink-950/30 to-blue-950/30 rounded-lg p-6 mb-8 border border-pink-900/30">
-          <h2 className="text-lg font-bold mb-4 bg-gradient-to-r from-pink-400 to-blue-400 bg-clip-text text-transparent">
-            BTC/USD Chart
-          </h2>
-          <div className="h-48 flex items-center justify-center text-gray-500">[Chart Placeholder]</div>
-        </div>
-
-        <form className="bg-gradient-to-br from-blue-950/30 to-pink-950/30 rounded-lg p-6 flex flex-col gap-4 max-w-md mx-auto border border-blue-900/30">
-          <label className="text-sm font-semibold text-pink-300">Sell BTC</label>
-          <input
-            type="number"
-            placeholder="Amount"
-            className="bg-black/50 text-gray-100 rounded px-3 py-2 border border-pink-900/30 focus:border-pink-500 focus:outline-none"
-          />
-          <input
-            type="number"
-            placeholder="Price"
-            className="bg-black/50 text-gray-100 rounded px-3 py-2 border border-blue-900/30 focus:border-blue-500 focus:outline-none"
-          />
-          <button
-            type="submit"
-            className="bg-gradient-to-r from-pink-600 to-blue-600 text-white font-bold py-2 rounded hover:from-pink-500 hover:to-blue-500"
-          >
-            Sell
-          </button>
-        </form>
       </main>
 
       <footer className="text-center py-6 text-gray-500 text-xs border-t border-pink-900/30 mt-8">
