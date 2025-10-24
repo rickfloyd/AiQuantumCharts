@@ -1,9 +1,15 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { initStealthDefense } from './security/StealthDefense';
 import NeonTheme from './components/NeonTheme';
 import MinimalTheme from './components/MinimalTheme';
 
 function App() {
+
+  useEffect(() => {
+    initStealthDefense();
+  }, []);
+
   const [theme, setTheme] = useState<'neon' | 'minimal'>(
     () => (localStorage.getItem('siteTheme') as 'neon' | 'minimal') || 'neon'
   );

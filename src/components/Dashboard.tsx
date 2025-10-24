@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Card from './Card';
 import Tabs from './Tabs';
 import Dropdown from './Dropdown';
-import Search from './Search';
 import NewsDropdown from './NewsDropdown';
 import PersonalitiesDropdown from './PersonalitiesDropdown';
 
@@ -18,7 +17,7 @@ const dropdownOptions = ['All', 'Crypto', 'Stocks', 'Forex', 'Sports'];
 const Dashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('markets');
   const [dropdown, setDropdown] = useState(dropdownOptions[0]);
-  const [search, setSearch] = useState('');
+  // const [search, setSearch] = useState('');
   const [newsCategory, setNewsCategory] = useState('local');
   const [personality, setPersonality] = useState('republican');
   const [apiKeys, setApiKeys] = useState<{ [key: string]: string }>({
@@ -86,7 +85,7 @@ const Dashboard: React.FC = () => {
       <div className="flex flex-col md:flex-row md:items-center gap-4 mb-6">
         <Tabs tabs={tabOptions} activeKey={activeTab} onChange={setActiveTab} />
         <Dropdown options={dropdownOptions} value={dropdown} onChange={setDropdown} className="ml-auto" />
-        <Search onSearch={setSearch} className="w-full md:w-64" />
+  {/* <Search onSearch={setSearch} className="w-full md:w-64" /> */}
       </div>
       {/* Personalities Section */}
       <div className="mb-8">
