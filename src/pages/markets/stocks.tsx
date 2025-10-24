@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchFromApi, normalizeMarketData, MarketData } from "@/lib/systemBridge";
+import { fetchFromApi, normalizeMarketData, MarketData } from "../../lib/systemBridge";
 
 export default function Stocks() {
   const [data, setData] = useState<MarketData[]>([]);

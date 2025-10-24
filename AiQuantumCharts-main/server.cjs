@@ -1,3 +1,14 @@
+const cron = require('node-cron');
+// --- Auto-Updater: Runs at 2PM Pacific Time (PT) daily ---
+// PT = UTC-8 (Standard), UTC-7 (Daylight). We'll use UTC 22:00 for 2PM PT (Standard), 21:00 for Daylight. For simplicity, run at 22:00 UTC.
+cron.schedule('0 22 * * *', () => {
+  console.log('[AUTO-UPDATER] Running daily update for all charts and software at 2PM PT (22:00 UTC)');
+  // TODO: Add logic to refresh chart data, push software updates, notify platforms, etc.
+  // Example: refreshCharts(); pushUpdates(); notifyUsers();
+}, {
+  scheduled: true,
+  timezone: 'Etc/UTC'
+});
 // API versioning
 const apiV1 = require('./server/api/v1/index.js');
 app.use('/api/v1', apiV1);
@@ -51,7 +62,7 @@ app.use(helmet());
 app.use(morgan('dev'));
 app.use(rateLimit({ windowMs: 60 * 1000, max: 100 })); // 100 req/min per IP
 
-const quantumShield = require('../server/security/QuantumShield').default;
+const quantumShield = require('./server/security/QuantumShield');
 
 
 app.use(cors());
