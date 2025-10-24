@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchFromApi, normalizeMarketData, MarketData } from "../../lib/systemBridge";
 
 export default function Stocks() {
@@ -6,7 +6,7 @@ export default function Stocks() {
 
   useEffect(() => {
     async function loadData() {
-      const result = await fetchFromApi<any[]>("/api/stocks");
+  const result = await fetchFromApi<MarketData[]>("/api/stocks");
       if (result.status === "success") {
         setData(normalizeMarketData(result.data));
       }

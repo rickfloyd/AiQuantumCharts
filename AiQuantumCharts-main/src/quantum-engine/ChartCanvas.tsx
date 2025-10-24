@@ -1,7 +1,7 @@
 // Quantum Performance Engine: Canvas Chart Wrapper
 // Uses lightweight-charts for fast rendering
 import React, { useEffect, useRef, useState } from "react";
-import { createChart, IChartApi, LineData } from "lightweight-charts";
+import { createChart, IChartApi, LineData, ISeriesApi } from "lightweight-charts";
 import { MT4BridgePanel } from "./MT4BridgePanel";
 
 export interface ChartCanvasProps {
@@ -11,7 +11,7 @@ export interface ChartCanvasProps {
 export const ChartCanvas: React.FC<ChartCanvasProps> = ({ data }) => {
   const chartRef = useRef<HTMLDivElement>(null);
   const chartInstance = useRef<IChartApi | null>(null);
-  const seriesRef = useRef<any>(null);
+  const seriesRef = useRef<ISeriesApi<'Line'> | null>(null);
   const wsRef = useRef<WebSocket | null>(null);
   const [collabData, setCollabData] = useState<LineData[]>(data);
 
@@ -25,7 +25,9 @@ export const ChartCanvas: React.FC<ChartCanvasProps> = ({ data }) => {
         if (msg.type === 'init' || msg.type === 'update') {
           setCollabData(msg.data);
         }
-      } catch {}
+      } catch {
+        // Ignore JSON parse errors
+      }
     };
     return () => ws.close();
   }, []);
@@ -39,9 +41,13 @@ export const ChartCanvas: React.FC<ChartCanvasProps> = ({ data }) => {
         layout: { background: { color: '#111' }, textColor: '#fff' },
         grid: { vertLines: { color: '#222' }, horzLines: { color: '#222' } },
       });
-  // Use addLineSeries() and cast to any to bypass type error
-  seriesRef.current = (chartInstance.current as any).addLineSeries();
-      seriesRef.current.setData(collabData);
+  // Use addSeries({ type: 'line' }) for v4+ API
+  // Fallback: use addLineSeries for compatibility
+  // @ts-expect-error: addLineSeries may not be in some type defs, but works in runtime
+  seriesRef.current = chartInstance.current.addLineSeries();
+      if (seriesRef.current) {
+        seriesRef.current.setData(collabData);
+      }
     }
     return () => {
       chartInstance.current?.remove();

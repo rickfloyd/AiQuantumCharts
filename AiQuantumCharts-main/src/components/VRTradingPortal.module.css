@@ -1,0 +1,13 @@
+.vrPortal {
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  position: relative;
+}
+.vrPortalHeader {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: #fff;
+  z-index: 10;
+}

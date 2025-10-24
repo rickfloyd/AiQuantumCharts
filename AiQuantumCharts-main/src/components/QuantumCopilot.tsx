@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styles from "./QuantumCopilot.module.css";
 
 // Quantum AI Copilot: context-aware, proactive assistant
 export const QuantumCopilot: React.FC = () => {
@@ -19,7 +20,7 @@ export const QuantumCopilot: React.FC = () => {
         <span>🧠 Quantum Copilot</span>
         <span className="text-xs bg-cyan-700 text-white px-2 py-0.5 rounded">Beta</span>
       </div>
-      <div className="flex-1 p-3 text-cyan-200" style={{ minHeight: 60 }}>{suggestion}</div>
+  <div className={`flex-1 p-3 text-cyan-200 ${styles.copilotSuggestion}`}>{suggestion}</div>
       <div className="flex border-t border-cyan-400">
         <button className="flex-1 px-4 py-2 text-cyan-400 font-bold hover:bg-cyan-800" onClick={() => setSuggestion("[AI: Volatility analysis coming soon]")}>Volatility</button>
         <button className="flex-1 px-4 py-2 text-pink-400 font-bold hover:bg-pink-800" onClick={() => setSuggestion("[AI: New strategy suggestion coming soon]")}>New Strategy</button>

@@ -18,12 +18,13 @@ import { initStealthDefense } from './security/StealthDefense';
 import NeonTheme from './components/NeonTheme';
 import MinimalTheme from './components/MinimalTheme';
 
-function isElectron() {
+
+function isElectronEnv() {
   if (
     typeof window !== 'undefined' &&
-    (window as any).process &&
-    (window as any).process.versions &&
-    (window as any).process.versions.electron
+    typeof (window as Window & { process?: unknown }).process === 'object' &&
+    typeof (window as Window & { process?: { versions?: unknown } }).process?.versions === 'object' &&
+    typeof (window as Window & { process?: { versions?: { electron?: string } } }).process?.versions?.electron === 'string'
   ) {
     return true;
   }
@@ -37,25 +38,21 @@ function isElectron() {
   return false;
 }
 
+
 const App: React.FC = () => {
-  // Electron-only check before any hooks
-  if (!isElectron()) {
-    return (
-      <div className="electron-only-warning">
-        <h1>🚫 Please open AiQuantumCharts in the Electron app.</h1>
-        <p>This app is designed to run only in Electron for security and feature reasons.</p>
-      </div>
-    );
-  }
-
-  useEffect(() => {
-    initStealthDefense();
-  }, []);
-
+  const [isElectron, setIsElectron] = useState(true);
   const [theme, setTheme] = useState<'neon' | 'minimal'>(
     () => (localStorage.getItem('siteTheme') as 'neon' | 'minimal') || 'neon'
   );
   const [mode, setMode] = useState<'quantum' | 'classic'>('quantum');
+
+  useEffect(() => {
+    setIsElectron(isElectronEnv());
+    if (isElectronEnv()) {
+      initStealthDefense();
+    }
+  }, []);
+
   const handleSwitch = () => {
     const next = theme === 'neon' ? 'minimal' : 'neon';
     setTheme(next);
@@ -69,6 +66,15 @@ const App: React.FC = () => {
     'BTC breaks $70k, new all-time high',
     'AI stocks lead tech rally',
   ];
+
+  if (!isElectron) {
+    return (
+      <div className="electron-only-warning">
+        <h1>🚫 Please open AiQuantumCharts in the Electron app.</h1>
+        <p>This app is designed to run only in Electron for security and feature reasons.</p>
+      </div>
+    );
+  }
 
   return (
     <Router>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styles from "./AIAssistantPanel.module.css";
 
 export const AIAssistantPanel: React.FC = () => {
   const [messages, setMessages] = useState([
@@ -22,7 +23,7 @@ export const AIAssistantPanel: React.FC = () => {
   return (
     <div className="fixed bottom-4 right-4 w-96 bg-black/90 border border-pink-400 rounded-xl shadow-lg z-50 flex flex-col">
       <div className="p-3 border-b border-pink-400 font-bold text-pink-300">AI Chart Assistant</div>
-      <div className="flex-1 p-3 overflow-y-auto space-y-2" style={{ maxHeight: 300 }}>
+  <div className={`flex-1 p-3 overflow-y-auto space-y-2 ${styles.aiAssistantMessages}`}> 
         {messages.map((m, i) => (
           <div key={i} className={m.sender === "ai" ? "text-cyan-200" : "text-white text-right"}>{m.text}</div>
         ))}

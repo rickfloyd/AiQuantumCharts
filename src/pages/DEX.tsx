@@ -2,7 +2,7 @@
 // File: src/pages/DEX.tsx
 
 import { useState } from "react";
-import { ethers } from "ethers";
+import { ethers, Eip1193Provider } from "ethers";
 import { Button } from "../components/ui/button";
 
 export default function DEX() {
@@ -14,7 +14,7 @@ export default function DEX() {
   async function connectWallet() {
     try {
       // TypeScript-safe access to window.ethereum
-      const eth = (window as typeof window & { ethereum?: any }).ethereum;
+      const eth = (window as typeof window & { ethereum?: Eip1193Provider }).ethereum;
       if (eth) {
         const provider = new ethers.BrowserProvider(eth);
         const accounts = await provider.send("eth_requestAccounts", []);
